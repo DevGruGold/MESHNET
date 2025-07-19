@@ -1,6 +1,4 @@
 import streamlit as st
-from web3 import Web3
-from streamlit_wallet_connect import st_wallet_connect
 
 # Corporate Styling (as before)
 st.markdown("""
@@ -17,16 +15,6 @@ st.markdown("""
 
 st.title("MESHNET Dashboard")
 st.subheader("Powered by XMRT Ecosystem – Decentralized AI-Meshed Future")
-
-# Web3 Setup (Sepolia Testnet)
-w3 = Web3(Web3.HTTPProvider(f"https://sepolia.infura.io/v3/c843a693bc5d43d1aee471d2491f2414"))  # Use prompted key
-xmrt_contract = "0x77307DFbc436224d5e6f2048d2b6bDfA66998a15"
-ipnft_contract = "0x9de91fc136a846d7442d1321a2d1b6aaef494eda"
-
-# Wallet Connect Button
-wallet = st_wallet_connect(project_id="3c0e28ee15f49b20eebc46f23df5aa8e", chain="ethereum:11155111")  # Sepolia chain ID
-if wallet:
-    st.write(f"Connected Wallet: {wallet['address']}")
 
 # Tabs with Full Integration
 tab1, tab2, tab3 = st.tabs(["Core Features", "AI & Agents", "Web3 Testing"])
