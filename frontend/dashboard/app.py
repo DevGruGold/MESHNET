@@ -32,10 +32,12 @@ if wallet:
 tab1, tab2, tab3 = st.tabs(["Core Features", "AI & Agents", "Web3 Testing"])
 
 with tab1:
-    # (Previous core features here, omitted for brevity)
+    # Placeholder: Add your core features here
+    st.write("Core features coming soon!")
 
 with tab2:
-    # (Previous AI features here)
+    # Placeholder: Add your AI features here
+    st.write("AI features coming soon!")
 
 with tab3:
     st.subheader("Web3 Testing Environment")
@@ -43,6 +45,7 @@ with tab3:
 
     # XMRT Coin Integration
     st.markdown("#### XMRT Coin (Sepolia)")
+    test_wallet_address = st.text_input("Test Wallet Address (for balance checks):")
     if st.button("Check Balance"):
         balance = w3.eth.get_balance(test_wallet_address) if test_wallet_address else 0
         st.metric("Balance", w3.from_wei(balance, 'ether'), "ETH")
@@ -55,6 +58,10 @@ with tab3:
         st.write("NFT Metadata: Simulated IP rights token.")
     if st.button("Simulate Mint"):
         st.success("NFT minted on testnet (simulation)!")
+
+st.markdown("---")
+st.write("**Join XMRT DAO:** Invest in decentralized meshes. [Contact](mailto:joseph@xmrt.io)")
+
 
 st.markdown("---")
 st.write("**Join XMRT DAO:** Invest in decentralized meshes. [Contact](mailto:joseph@xmrt.io)")
