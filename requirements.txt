@@ -1,4 +1,6 @@
 streamlit
 web3
+streamlit-wc
+st-wallet-connect
 streamlit-wallet-connect
 requests
