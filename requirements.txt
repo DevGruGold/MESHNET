@@ -1,5 +1,6 @@
 streamlit
 web3
+st-wallet-connect
 streamlit-wallet-connect
 meshtastic
 requests
