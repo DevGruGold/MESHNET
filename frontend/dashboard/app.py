@@ -1,6 +1,7 @@
 import streamlit as st
 
-# Corporate Styling (as before)
+st.set_page_config(page_title="MESHNET Dashboard", layout="wide")
+
 st.markdown("""
 <style>
     body { background-color: #f4f9fd; color: #333; font-family: 'Arial', sans-serif; }
@@ -16,39 +17,62 @@ st.markdown("""
 st.title("MESHNET Dashboard")
 st.subheader("Powered by XMRT Ecosystem – Decentralized AI-Meshed Future")
 
-# Tabs with Full Integration
-tab1, tab2, tab3 = st.tabs(["Core Features", "AI & Agents", "Web3 Testing"])
+st.markdown("### XMRT DAO: Revolutionizing Off-Grid Ecosystems")
+st.write("XMRT DAO combines Meshtastic networking with AI agents for resilient, tokenized communities. Explore features below.")
+
+tab1, tab2, tab3 = st.tabs(["Core Features", "AI & Agents", "Testing Environment"])
 
 with tab1:
-    # Placeholder: Add your core features here
-    st.write("Core features coming soon!")
+    st.markdown("#### MobileMonero: Mobile Crypto Wallet")
+    st.write("Secure Monero transactions on the go. Simulate a send:")
+    if st.button("Simulate XMR Send"):
+        st.success("Transaction simulated: 1 XMR sent to wallet!")
+
+    st.markdown("#### Meshtastic: Off-Grid Mesh Networking")
+    st.write("Connect devices for resilient comms. Current status:")
+    st.metric("Active Nodes", 5, "2 Online")
+
+    st.markdown("#### CashDapp: Crypto Payments")
+    st.write("Seamless dapp for payments/bridges. Test a transaction:")
+    if st.button("Simulate Payment"):
+        st.success("Payment bridged: $10 via CashDapp!")
 
 with tab2:
-    # Placeholder: Add your AI features here
-    st.write("AI features coming soon!")
+    st.markdown("#### Agents: AI-Driven Automation")
+    st.write("Intelligent agents for tasks. Query one:")
+    agent_query = st.text_input("Ask Agent:")
+    if st.button("Run Agent"):
+        st.write(f"Agent response: Processed '{agent_query}' successfully!")
+    st.markdown("#### Langchain: AI Chains")
+    st.write("Build complex AI workflows. Simulate chain:")
+    if st.button("Run Langchain"):
+        st.progress(1.0)
+        st.write("Chain complete: Data processed through 3 steps.")
+    st.markdown("#### Eliza: Conversational AI")
+    st.write("Chatbot for ecosystem queries. Try it:")
+    eliza_input = st.text_input("Chat with Eliza:")
+    if st.button("Send to Eliza"):
+        st.write(f"Eliza: Hello, regarding '{eliza_input}', here's info...")
+    st.markdown("#### GPT-5: Advanced LLM Integration")
+    st.write("Powered by cutting-edge models. Generate insight:")
+    if st.button("Generate with GPT-5"):
+        st.write("GPT-5 insight: XMRT DAO could grow 10x with mesh adoption!")
 
 with tab3:
-    st.subheader("Web3 Testing Environment")
-    st.write("Interact with XMRT on Sepolia Testnet!")
-
-    # XMRT Coin Integration
-    st.markdown("#### XMRT Coin (Sepolia)")
-    test_wallet_address = st.text_input("Test Wallet Address (for balance checks):")
-    if st.button("Check Balance"):
-        balance = w3.eth.get_balance(test_wallet_address) if test_wallet_address else 0
-        st.metric("Balance", w3.from_wei(balance, 'ether'), "ETH")
-    if st.button("Simulate Transfer"):
-        st.success("Simulated XMRT transfer on testnet!")
-
-    # IP-NFT Integration
-    st.markdown("#### IP-NFT")
-    if st.button("View NFT"):
-        st.write("NFT Metadata: Simulated IP rights token.")
-    if st.button("Simulate Mint"):
-        st.success("NFT minted on testnet (simulation)!")
+    st.subheader("Investor Testing Environment")
+    st.write("Interactive demo of XMRT Ecosystem—simulate full flows!")
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Test Mesh Bridge"):
+            st.success("Bridged! Data from Meshtastic to XMRT API.")
+    with col2:
+        if st.button("Run Agent Simulation"):
+            st.line_chart({"data": [1, 5, 2, 6, 2, 1]})
+            st.write("Agent metrics simulated.")
 
 st.markdown("---")
-st.write("**Join XMRT DAO:** Invest in decentralized meshes. [Contact](mailto:joseph@xmrt.io)")
+st.write("**Join XMRT DAO:** Invest in the future of decentralized meshes. [Contact](mailto:xmrtnet@gmail.com)")
+
 
 
 st.markdown("---")
