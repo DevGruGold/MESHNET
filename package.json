@@ -1,0 +1,8 @@
+{
+  "name": "meshnet",
+  "version": "1.0.0",
+  "workspaces": ["frontend/*", "backend/*"],
+  "scripts": {
+    "start": "npm run start --workspace=frontend/web"
+  }
+}
