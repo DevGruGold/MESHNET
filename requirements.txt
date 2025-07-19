@@ -1,2 +1,5 @@
+streamlit
+web3
+streamlit-wallet-connect
 meshtastic
 requests
