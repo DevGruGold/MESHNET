@@ -95,8 +95,8 @@ if "profile" not in st.session_state:
 
 # --- Onboarding Flow ---
 if not st.session_state.onboarded:
-    st.markdown("<div class=\"onboarding-box\">", unsafe_allow_html=True)
-    st.markdown("<h1>XMRT DAO <span class=\"orange\">on Meshnet</span></h1>", unsafe_allow_html=True)
+    st.markdown("<div class='onboarding-box'>", unsafe_allow_html=True)
+    st.markdown("<h1>XMRT DAO <span class='orange'>on Meshnet</span></h1>", unsafe_allow_html=True)
     st.markdown("<h3>Welcome to the XMRT Ecosystem: A decentralized autonomous organization powered by AI and secure mesh networking.</h3>", unsafe_allow_html=True)
     st.write("Get started instantly—no login, no wallet connect. Your session is private and local.")
     name = st.text_input("🧑 Name or Alias", help="Your XMRT DAO or Meshnet identity")
@@ -121,11 +121,11 @@ if not st.session_state.onboarded:
     st.stop()
 
 # --- Header/Profile ---
-st.markdown("<div style=\"background:#2d2d2d; padding:13px 22px 10px 22px; border-radius:10px; margin-bottom:20px;\">", unsafe_allow_html=True)
+st.markdown("<div style='background:#2d2d2d; padding:13px 22px 10px 22px; border-radius:10px; margin-bottom:20px;'>", unsafe_allow_html=True)
 cols = st.columns([2,2,6])
-with cols[0]: st.markdown(f"<div class=\"profile-chip\">👤 {st.session_state.profile.get(\"name\",\"\")}</div>", unsafe_allow_html=True)
-with cols[1]: st.markdown(f"<div class=\"profile-chip\">🔗 {st.session_state.profile.get(\"mesh_alias\",\"\")}</div>", unsafe_allow_html=True)
-with cols[2]: st.markdown(f"<div class=\"profile-chip\">🛠️ {st.session_state.profile.get(\"role\",\"\")}: {st.session_state.profile.get(\"purpose\",\"\")}</div>", unsafe_allow_html=True)
+with cols[0]: st.markdown(f"<div class='profile-chip'>👤 {st.session_state.profile.get('name','')}</div>", unsafe_allow_html=True)
+with cols[1]: st.markdown(f"<div class='profile-chip'>🔗 {st.session_state.profile.get('mesh_alias','')}</div>", unsafe_allow_html=True)
+with cols[2]: st.markdown(f"<div class='profile-chip'>🛠️ {st.session_state.profile.get('role','')}: {st.session_state.profile.get('purpose','')}</div>", unsafe_allow_html=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
 # --- Session Tracking/Stats ---
@@ -147,10 +147,10 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 ])
 
 with tab1:
-    st.markdown("<div class=\"card\"><h2>XMRT Meshnet Overview</h2>", unsafe_allow_html=True)
+    st.markdown("<div class='card'><h2>XMRT Meshnet Overview</h2>", unsafe_allow_html=True)
     st.metric("Active Meshnet Nodes", 1234, "+57 new in last 24h")
     st.metric("Total Mesh Sessions (demo)", st.session_state.visit_count)
-    st.write("<span class=\"orange\">Node Status:</span> Decentralized, resilient, and growing. Monitor your connected nodes and network health.", unsafe_allow_html=True)
+    st.write("<span class='orange'>Node Status:</span> Decentralized, resilient, and growing. Monitor your connected nodes and network health.", unsafe_allow_html=True)
     if st.button("Simulate Meshnet Data Transfer", key="meshmsg"):
         st.session_state.session_events.append("Meshnet Data Transfer Simulated")
         st.success("Secure data transfer across Meshnet completed! (simulated)")
@@ -158,7 +158,7 @@ with tab1:
     st.markdown("</div>", unsafe_allow_html=True)
 
 with tab2:
-    st.markdown("<div class=\"card\"><h2>Engage with XMRT DAO</h2>", unsafe_allow_html=True)
+    st.markdown("<div class='card'><h2>Engage with XMRT DAO</h2>", unsafe_allow_html=True)
     st.write("**Participate in governance, contribute to the ecosystem, and earn rewards!**")
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -186,7 +186,7 @@ with tab2:
     st.markdown("</div>", unsafe_allow_html=True)
 
 with tab3:
-    st.markdown("<div class=\"card\"><h2>XMRT CashDapp – Secure Payments & Transfers</h2>", unsafe_allow_html=True)
+    st.markdown("<div class='card'><h2>XMRT CashDapp – Secure Payments & Transfers</h2>", unsafe_allow_html=True)
     st.write("Experience seamless and private digital asset transactions within the XMRT Ecosystem. All demo—no real crypto.")
     cash_amount = st.number_input("Amount to send (XMRT)", min_value=0.01, step=0.01, value=100.00)
     cash_to = st.text_input("Recipient (Meshnet Handle or XMRT Wallet Address)")
@@ -199,12 +199,12 @@ with tab3:
         if st.button("🟧 Request XMRT Payment", key="reqpay"):
             st.session_state.session_events.append(f"CashDapp: Requested {cash_amount} XMRT from {cash_to}")
             st.info(f"Payment request for {cash_amount} XMRT sent to {cash_to} (simulated)!")
-    st.write("<div class=\"orange\">Track your XMRT transactions, bridge to other cryptocurrencies, and manage your digital assets securely. (All demo, no real money!)</div>", unsafe_allow_html=True)
-    st.markdown("<span class=\"orange\">Full Monero and cross-chain support coming soon!</span>", unsafe_allow_html=True)
+    st.write("<div class='orange'>Track your XMRT transactions, bridge to other cryptocurrencies, and manage your digital assets securely. (All demo, no real money!)</div>", unsafe_allow_html=True)
+    st.markdown("<span class='orange'>Full Monero and cross-chain support coming soon!</span>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
 with tab4:
-    st.markdown("<div class=\"card\"><h2>Eliza AI Boardroom 🧑‍💼 – Strategic Insights</h2>", unsafe_allow_html=True)
+    st.markdown("<div class='card'><h2>Eliza AI Boardroom 🧑‍💼 – Strategic Insights</h2>", unsafe_allow_html=True)
     st.write("Engage with Eliza, our advanced AI board advisor. Get real-time insights on XMRT DAO governance, Meshnet growth, and ecosystem development.")
     eliza_input = st.text_input("Ask Eliza (Boardroom):")
     if st.button("Ask Eliza"):
@@ -215,7 +215,7 @@ with tab4:
     st.markdown("</div>", unsafe_allow_html=True)
 
 with tab5:
-    st.markdown("<div class=\"card\"><h2>Session Profile & Ecosystem Analytics</h2>", unsafe_allow_html=True)
+    st.markdown("<div class='card'><h2>Session Profile & Ecosystem Analytics</h2>", unsafe_allow_html=True)
     st.write("Your current session profile (local only):")
     st.json(st.session_state.profile)
     st.write("Session events (track your interactions within this session):")
@@ -230,6 +230,6 @@ with tab5:
     st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("---")
-st.write("<span style=\"color:#00ff88;font-weight:bold;\">XMRT DAO on Meshnet</span> | Empowering Decentralized Futures | Contact: <a href=\"mailto:contact@xmrt.org\" style=\"color:#00ff88;\">contact@xmrt.org</a>", unsafe_allow_html=True)
+st.write("<span style='color:#00ff88;font-weight:bold;'>XMRT DAO on Meshnet</span> | Empowering Decentralized Futures | Contact: <a href='mailto:contact@xmrt.org' style='color:#00ff88;'>contact@xmrt.org</a>", unsafe_allow_html=True)
 
 
