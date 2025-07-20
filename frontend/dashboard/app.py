@@ -117,7 +117,7 @@ else: # Light theme styling
     st.markdown("""
         <style>
             body { background: #f0f2f6 !important; color: #333333; font-family: 'Inter', 'Arial', sans-serif; }
-            h1, h2, h3, h4, h5 { color: #007bff; } /* A standard blue for light theme */
+            h1, h2, h3, h4, h5 { color: #333333; } /* Changed to dark grey for visibility */
             .stButton > button {
                 background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
                 color: #ffffff !important;
@@ -218,7 +218,7 @@ else: # Light theme styling
     """, unsafe_allow_html=True)
 
 # --- Theme Toggle (for demonstration) ---
-if st.sidebar.button(f"Switch to {'Light' if st.session_state.theme == 'Dark' else 'Dark'} Theme"):
+if st.sidebar.button(f"Switch to {"Light" if st.session_state.theme == "Dark" else "Dark"} Theme"):
     st.session_state.theme = 'Light' if st.session_state.theme == 'Dark' else 'Dark'
     st.experimental_rerun()
 
