@@ -1,79 +1,155 @@
-import streamlit as st
 
-st.set_page_config(page_title="MESHNET Dashboard", layout="wide")
+import streamlit as st
+import datetime
+
+st.set_page_config(page_title="MESHNET Onboarding", layout="wide")
 
 st.markdown("""
-<style>
-    body { background-color: #f4f9fd; color: #333; font-family: 'Arial', sans-serif; }
-    h1 { color: #006699; text-align: center; }
-    .stButton > button { background-color: #006699; color: white; width: 100%; height: 50px; font-size: 18px; border-radius: 5px; }
-    .stExpander { background-color: #e6f2ff; border-radius: 5px; }
-    .row { display: flex; flex-wrap: wrap; } .col { flex: 1; min-width: 200px; padding: 10px; }
-    @media (max-width: 768px) { .row { flex-direction: column; } }
-    .metric { box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 10px; border-radius: 5px; background: white; }
-</style>
+    <style>
+        body { background-color: #f4f9fd; color: #222; font-family: 'Inter', 'Arial', sans-serif; }
+        h1, h2, h3, h4, h5 { color: #006699; }
+        .stButton > button {
+            background-color: #006699;
+            color: white;
+            width: 100%;
+            height: 50px;
+            font-size: 20px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+        }
+        .stTextInput > div > input, .stTextArea > div > textarea {
+            font-size: 18px;
+            border-radius: 8px;
+            border: 1.5px solid #006699;
+        }
+        .onboarding-box {
+            background: #e6f2ff;
+            padding: 30px 24px 18px 24px;
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+            margin-bottom: 20px;
+        }
+        .profile-chip {
+            display: inline-block;
+            background: #d1e9fa;
+            color: #006699;
+            padding: 4px 18px;
+            margin: 3px 3px 3px 0;
+            border-radius: 18px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        @media (max-width: 700px) {
+            .onboarding-box { padding: 14px 8px 10px 8px; }
+            h1 { font-size: 24px; }
+        }
+    </style>
 """, unsafe_allow_html=True)
 
-st.title("MESHNET Dashboard")
-st.subheader("Powered by XMRT Ecosystem – Decentralized AI-Meshed Future")
+if "onboarded" not in st.session_state:
+    st.session_state.onboarded = False
+if "profile" not in st.session_state:
+    st.session_state.profile = {}
 
-st.markdown("### XMRT DAO: Revolutionizing Off-Grid Ecosystems")
-st.write("XMRT DAO combines Meshtastic networking with AI agents for resilient, tokenized communities. Explore features below.")
+if not st.session_state.onboarded:
+    st.markdown('<div class="onboarding-box">', unsafe_allow_html=True)
+    st.markdown("## Welcome to MESHNET")
+    st.write("**XMRT Ecosystem’s Meshnet** is the easiest way to join, mine, or invest in the decentralized future of off-grid, agent-powered networks.")
+    st.markdown("### Get Started")
+    name = st.text_input("🧑 Your Name or Alias")
+    role = st.selectbox("Your Mode", ["Mesh Miner", "Investor / Observer", "Just Curious"])
+    mesh_alias = st.text_input("Mesh Handle (for node display)", max_chars=18)
+    if role == "Mesh Miner":
+        purpose = st.selectbox("Mining Purpose", ["Contribute connectivity", "Bridge data", "Run an agent", "Other"])
+    else:
+        purpose = "N/A"
+    if st.button("🚀 Enter MESHNET"):
+        st.session_state.onboarded = True
+        st.session_state.profile = {
+            "name": name,
+            "role": role,
+            "mesh_alias": mesh_alias,
+            "purpose": purpose,
+            "joined": str(datetime.datetime.now())
+        }
+    st.markdown("</div>", unsafe_allow_html=True)
+    st.info("No login required. No data leaves your browser/session. All onboarding is instant and local.")
+    st.stop()
 
-tab1, tab2, tab3 = st.tabs(["Core Features", "AI & Agents", "Testing Environment"])
+st.markdown('<div style="background:#e6f2ff; padding:10px 20px 10px 20px; border-radius:8px; margin-bottom:18px;">', unsafe_allow_html=True)
+cols = st.columns([2,2,6])
+with cols[0]: st.markdown(f'<div class="profile-chip">👤 {st.session_state.profile.get("name","")}</div>', unsafe_allow_html=True)
+with cols[1]: st.markdown(f'<div class="profile-chip">🔗 {st.session_state.profile.get("mesh_alias","")}</div>', unsafe_allow_html=True)
+with cols[2]: st.markdown(f'<div class="profile-chip">🛠️ {st.session_state.profile.get("role","")}: {st.session_state.profile.get("purpose","")}</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
+
+if "visit_count" not in st.session_state:
+    st.session_state.visit_count = 1
+else:
+    st.session_state.visit_count += 1
+if "session_events" not in st.session_state:
+    st.session_state.session_events = []
+st.session_state.session_events.append(f"Visited at step {st.session_state.visit_count}")
+
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "Mesh Dashboard",
+    "Agents & AI",
+    "CashDapp",
+    "Eliza Boardroom",
+    "Session"
+])
 
 with tab1:
-    st.markdown("#### MobileMonero: Mobile Crypto Wallet")
-    st.write("Secure Monero transactions on the go. Simulate a send:")
-    if st.button("Simulate XMR Send"):
-        st.success("Transaction simulated: 1 XMR sent to wallet!")
-
-    st.markdown("#### Meshtastic: Off-Grid Mesh Networking")
-    st.write("Connect devices for resilient comms. Current status:")
-    st.metric("Active Nodes", 5, "2 Online")
-
-    st.markdown("#### CashDapp: Crypto Payments")
-    st.write("Seamless dapp for payments/bridges. Test a transaction:")
-    if st.button("Simulate Payment"):
-        st.success("Payment bridged: $10 via CashDapp!")
+    st.markdown("### Mesh Miner Dashboard")
+    st.metric("Active Nodes", 8, "+2 new in last hour")
+    st.metric("Mesh Sessions (demo)", st.session_state.visit_count)
+    st.write("Simulated mesh status: Node1 (active), Node2 (idle), Node3 (joining)...")
+    if st.button("Simulate Mesh Message"):
+        st.session_state.session_events.append("Mesh Message Sent")
+        st.success("Mesh message sent! (simulated)")
+    st.success("Mining enabled! (simulated)")
 
 with tab2:
-    st.markdown("#### Agents: AI-Driven Automation")
-    st.write("Intelligent agents for tasks. Query one:")
-    agent_query = st.text_input("Ask Agent:")
-    if st.button("Run Agent"):
-        st.write(f"Agent response: Processed '{agent_query}' successfully!")
-    st.markdown("#### Langchain: AI Chains")
-    st.write("Build complex AI workflows. Simulate chain:")
-    if st.button("Run Langchain"):
-        st.progress(1.0)
-        st.write("Chain complete: Data processed through 3 steps.")
-    st.markdown("#### Eliza: Conversational AI")
-    st.write("Chatbot for ecosystem queries. Try it:")
-    eliza_input = st.text_input("Chat with Eliza:")
-    if st.button("Send to Eliza"):
-        st.write(f"Eliza: Hello, regarding '{eliza_input}', here's info...")
-    st.markdown("#### GPT-5: Advanced LLM Integration")
-    st.write("Powered by cutting-edge models. Generate insight:")
-    if st.button("Generate with GPT-5"):
-        st.write("GPT-5 insight: XMRT DAO could grow 10x with mesh adoption!")
+    st.markdown("### Agents, LangChain, Eliza, GPT-5 (Demo)")
+    st.write("AI agents route, score, and automate mesh data (simulated).")
+    ai_input = st.text_input("Ask an Agent or AI:")
+    if st.button("Run AI Agent"):
+        st.session_state.session_events.append(f"AI Agent Queried: {ai_input}")
+        st.info("AI/Agent: 'XMRT mesh status is optimal. All agents running.'")
+    st.write("Eliza Chatbot: Hello! How can I help with your mesh or investment questions?")
 
 with tab3:
-    st.subheader("Investor Testing Environment")
-    st.write("Interactive demo of XMRT Ecosystem—simulate full flows!")
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("Test Mesh Bridge"):
-            st.success("Bridged! Data from Meshtastic to XMRT API.")
-    with col2:
-        if st.button("Run Agent Simulation"):
-            st.line_chart({"data": [1, 5, 2, 6, 2, 1]})
-            st.write("Agent metrics simulated.")
+    st.markdown("### CashDapp – Crypto Payments Demo")
+    st.write("Simulate sending, receiving, or bridging digital assets on mesh.")
+    cash_amount = st.number_input("Amount to send", min_value=0.01, step=0.01)
+    cash_to = st.text_input("Destination (mesh alias or wallet)")
+    if st.button("Send Payment"):
+        st.session_state.session_events.append(f"CashDapp: Sent {cash_amount} to {cash_to}")
+        st.success(f"Payment of ${cash_amount} sent to {cash_to} (simulated)!")
+    if st.button("Request Payment"):
+        st.session_state.session_events.append(f"CashDapp: Requested {cash_amount} from {cash_to}")
+        st.info(f"Payment request for ${cash_amount} sent to {cash_to} (simulated)!")
+    st.write("Track your mesh payments, bridge to other chains, and manage digital assets. (All demo, no real money!)")
+
+with tab4:
+    st.markdown("### Eliza Executive Boardroom 🧑‍💼")
+    st.write("Chat with Eliza, your AI board advisor. Ask about XMRT DAO, mesh growth, or investor strategy.")
+    eliza_input = st.text_input("Ask Eliza (Boardroom):")
+    if st.button("Ask Eliza"):
+        eliza_res = f"Eliza: For '{eliza_input}', the board suggests focusing on mesh resilience and investor transparency. XMRT DAO's next move is global mesh partnerships."
+        st.session_state.session_events.append(f"Eliza Boardroom: {eliza_input}")
+        st.info(eliza_res)
+    st.warning("Eliza Boardroom is a simulation for investor/exec Q&A.")
+
+with tab5:
+    st.markdown("### Session Profile & Tracking")
+    st.write("Your current session profile (local only):")
+    st.json(st.session_state.profile)
+    st.write("Session events (track your clicks in this session):")
+    st.json(st.session_state.session_events)
+    if st.button("🔄 Start Over"):
+        st.session_state.onboarded = False
+        st.experimental_rerun()
 
 st.markdown("---")
-st.write("**Join XMRT DAO:** Invest in the future of decentralized meshes. [Contact](mailto:xmrtnet@gmail.com)")
-
-
-
-st.markdown("---")
-st.write("**Join XMRT DAO:** Invest in decentralized meshes. [Contact](mailto:joseph@xmrt.io)")
+st.write("**Meshnet is a product of XMRT.io. No user data stored or transmitted.**")
