@@ -1,7 +1,2 @@
 streamlit
 requests
-gspread
-gspread-dataframe
-yagmail
-pandas
-google-auth
