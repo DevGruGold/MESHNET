@@ -1,1 +1,35 @@
-[]
+[
+    {
+        "miner_id": "miner_1",
+        "hashes_per_second": 1000.0,
+        "temperature": 65.5,
+        "fan_speed": 2500,
+        "power_consumption": 150.0,
+        "last_update": "2025-07-19T10:00:00"
+    },
+    {
+        "miner_id": "miner_2",
+        "hashes_per_second": 1200.0,
+        "temperature": 68.0,
+        "fan_speed": 2700,
+        "power_consumption": 160.0,
+        "last_update": "2025-07-19T10:05:00"
+    },
+    {
+        "miner_id": "miner_1",
+        "hashes_per_second": 1050.0,
+        "temperature": 66.0,
+        "fan_speed": 2550,
+        "power_consumption": 152.0,
+        "last_update": "2025-07-20T11:00:00"
+    },
+    {
+        "miner_id": "miner_2",
+        "hashes_per_second": 1250.0,
+        "temperature": 69.0,
+        "fan_speed": 2750,
+        "power_consumption": 165.0,
+        "last_update": "2025-07-20T11:05:00"
+    }
+]
+
