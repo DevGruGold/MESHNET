@@ -1,6 +1,7 @@
-
 import streamlit as st
 import datetime
+import pandas as pd
+import random
 
 st.set_page_config(page_title="XMRT DAO – Corporate Meshnet", layout="wide")
 
@@ -80,12 +81,50 @@ st.markdown("""
             background: linear-gradient(90deg, #00ff88 0%, #00cc66 100%);
             border-bottom: 3px solid #00ff88 !important;
         }
+        .leaderboard-rank {
+            background: linear-gradient(90deg, #00ff88 0%, #00cc66 100%);
+            color: #1a1a1a;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .miner-card {
+            background: #333333;
+            border: 1px solid #00ff88;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 8px #00ff8833;
+        }
+        .top-miner {
+            background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+            color: #1a1a1a;
+            border: 2px solid #00ff88;
+        }
         @media (max-width: 700px) {
             .onboarding-box, .card { padding: 12px 6px 10px 6px; }
             h1 { font-size: 25px; }
         }
     </style>
 """, unsafe_allow_html=True)
+
+# --- Initialize Miner Leaderboard Data ---
+@st.cache_data
+def get_miner_leaderboard():
+    miners = [
+        {"rank": 1, "handle": "CryptoMiner_X", "hash_rate": "2.5 TH/s", "blocks_mined": 1247, "xmrt_earned": 15420.50, "uptime": "99.8%", "location": "USA", "status": "🟢 Active"},
+        {"rank": 2, "handle": "MeshNode_Alpha", "hash_rate": "2.1 TH/s", "blocks_mined": 1089, "xmrt_earned": 13567.25, "uptime": "99.5%", "location": "Germany", "status": "🟢 Active"},
+        {"rank": 3, "handle": "QuantumMiner", "hash_rate": "1.9 TH/s", "blocks_mined": 987, "xmrt_earned": 12234.75, "uptime": "98.9%", "location": "Japan", "status": "🟢 Active"},
+        {"rank": 4, "handle": "DeepMesh_Pro", "hash_rate": "1.7 TH/s", "blocks_mined": 856, "xmrt_earned": 10678.00, "uptime": "99.2%", "location": "Canada", "status": "🟢 Active"},
+        {"rank": 5, "handle": "NeuralNode_1", "hash_rate": "1.5 TH/s", "blocks_mined": 743, "xmrt_earned": 9234.50, "uptime": "97.8%", "location": "UK", "status": "🟡 Syncing"},
+        {"rank": 6, "handle": "CyberMiner_Z", "hash_rate": "1.4 TH/s", "blocks_mined": 689, "xmrt_earned": 8567.25, "uptime": "98.5%", "location": "Australia", "status": "🟢 Active"},
+        {"rank": 7, "handle": "MeshGuardian", "hash_rate": "1.3 TH/s", "blocks_mined": 634, "xmrt_earned": 7890.75, "uptime": "99.1%", "location": "Netherlands", "status": "🟢 Active"},
+        {"rank": 8, "handle": "DigitalNomad", "hash_rate": "1.2 TH/s", "blocks_mined": 578, "xmrt_earned": 7123.00, "uptime": "96.7%", "location": "Singapore", "status": "🟢 Active"},
+        {"rank": 9, "handle": "BlockChaser", "hash_rate": "1.1 TH/s", "blocks_mined": 523, "xmrt_earned": 6456.50, "uptime": "98.3%", "location": "Brazil", "status": "🟢 Active"},
+        {"rank": 10, "handle": "MeshMaster_V2", "hash_rate": "1.0 TH/s", "blocks_mined": 467, "xmrt_earned": 5789.25, "uptime": "97.5%", "location": "France", "status": "🟡 Syncing"}
+    ]
+    return pd.DataFrame(miners)
 
 # --- Onboarding State ---
 if "onboarded" not in st.session_state:
@@ -138,8 +177,9 @@ if "session_events" not in st.session_state:
 st.session_state.session_events.append(f"Visited at step {st.session_state.visit_count}")
 
 # --- Main Dashboard Tabs ---
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "XMRT Meshnet Dashboard",
+    "Miner Leaderboard",
     "XMRT DAO Interactions",
     "XMRT CashDapp",
     "Eliza AI Boardroom",
@@ -158,6 +198,87 @@ with tab1:
     st.markdown("</div>", unsafe_allow_html=True)
 
 with tab2:
+    st.markdown("<div class='card'><h2>🏆 XMRT Miner Leaderboard</h2>", unsafe_allow_html=True)
+    st.write("**Top performing miners in the XMRT Meshnet ecosystem. Rankings updated in real-time based on hash rate, blocks mined, and network contribution.**")
+    
+    # Leaderboard controls
+    col1, col2, col3 = st.columns([2, 2, 2])
+    with col1:
+        sort_by = st.selectbox("Sort by:", ["Rank", "Hash Rate", "Blocks Mined", "XMRT Earned", "Uptime"])
+    with col2:
+        filter_status = st.selectbox("Filter by Status:", ["All", "🟢 Active", "🟡 Syncing", "🔴 Offline"])
+    with col3:
+        if st.button("🔄 Refresh Leaderboard"):
+            st.session_state.session_events.append("Refreshed Miner Leaderboard")
+            st.success("Leaderboard updated!")
+    
+    # Get leaderboard data
+    df = get_miner_leaderboard()
+    
+    # Apply filters
+    if filter_status != "All":
+        df = df[df['status'] == filter_status]
+    
+    # Display top 3 miners prominently
+    st.markdown("### 🥇 Top 3 Miners")
+    top3_cols = st.columns(3)
+    
+    for i, (idx, miner) in enumerate(df.head(3).iterrows()):
+        with top3_cols[i]:
+            medal = ["🥇", "🥈", "🥉"][i]
+            st.markdown(f"""
+            <div class='miner-card top-miner'>
+                <h4>{medal} #{miner['rank']} {miner['handle']}</h4>
+                <p><strong>Hash Rate:</strong> {miner['hash_rate']}</p>
+                <p><strong>Blocks:</strong> {miner['blocks_mined']}</p>
+                <p><strong>XMRT Earned:</strong> {miner['xmrt_earned']:,.2f}</p>
+                <p><strong>Uptime:</strong> {miner['uptime']}</p>
+                <p><strong>Status:</strong> {miner['status']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    # Full leaderboard table
+    st.markdown("### 📊 Complete Leaderboard")
+    
+    # Format the dataframe for display
+    display_df = df.copy()
+    display_df['XMRT Earned'] = display_df['xmrt_earned'].apply(lambda x: f"{x:,.2f}")
+    display_df = display_df[['rank', 'handle', 'hash_rate', 'blocks_mined', 'XMRT Earned', 'uptime', 'location', 'status']]
+    display_df.columns = ['Rank', 'Miner Handle', 'Hash Rate', 'Blocks Mined', 'XMRT Earned', 'Uptime', 'Location', 'Status']
+    
+    st.dataframe(display_df, use_container_width=True, hide_index=True)
+    
+    # Mining statistics
+    st.markdown("### 📈 Network Mining Statistics")
+    stat_cols = st.columns(4)
+    with stat_cols[0]:
+        st.metric("Total Network Hash Rate", "15.2 TH/s", "+0.8 TH/s")
+    with stat_cols[1]:
+        st.metric("Active Miners", len(df[df['status'] == '🟢 Active']), "+2")
+    with stat_cols[2]:
+        st.metric("Total Blocks Mined", f"{df['blocks_mined'].sum():,}", "+127")
+    with stat_cols[3]:
+        st.metric("Total XMRT Distributed", f"{df['xmrt_earned'].sum():,.2f}", "+1,234.56")
+    
+    # Mining pool actions
+    st.markdown("### ⛏️ Mining Pool Actions")
+    mining_cols = st.columns(3)
+    with mining_cols[0]:
+        if st.button("🚀 Start Mining", key="start_mining"):
+            st.session_state.session_events.append("Started XMRT Mining")
+            st.success("Mining operation initiated! Your node is now contributing to the XMRT network.")
+    with mining_cols[1]:
+        if st.button("📊 View My Stats", key="my_stats"):
+            st.session_state.session_events.append("Viewed Mining Stats")
+            st.info("Your mining statistics: Hash Rate: 0.5 TH/s | Blocks: 23 | XMRT Earned: 287.50")
+    with mining_cols[2]:
+        if st.button("⚙️ Optimize Settings", key="optimize"):
+            st.session_state.session_events.append("Optimized Mining Settings")
+            st.info("Mining settings optimized for maximum efficiency!")
+    
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with tab3:
     st.markdown("<div class='card'><h2>Engage with XMRT DAO</h2>", unsafe_allow_html=True)
     st.write("**Participate in governance, contribute to the ecosystem, and earn rewards!**")
     c1, c2, c3 = st.columns(3)
@@ -185,7 +306,7 @@ with tab2:
     st.write("**Real-time mesh mining, on-chain governance, and AI agent deployments are actively being integrated.**")
     st.markdown("</div>", unsafe_allow_html=True)
 
-with tab3:
+with tab4:
     st.markdown("<div class='card'><h2>XMRT CashDapp – Secure Payments & Transfers</h2>", unsafe_allow_html=True)
     st.write("Experience seamless and private digital asset transactions within the XMRT Ecosystem. All demo—no real crypto.")
     cash_amount = st.number_input("Amount to send (XMRT)", min_value=0.01, step=0.01, value=100.00)
@@ -203,7 +324,7 @@ with tab3:
     st.markdown("<span class='orange'>Full Monero and cross-chain support coming soon!</span>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-with tab4:
+with tab5:
     st.markdown("<div class='card'><h2>Eliza AI Boardroom 🧑‍💼 – Strategic Insights</h2>", unsafe_allow_html=True)
     st.write("Engage with Eliza, our advanced AI board advisor. Get real-time insights on XMRT DAO governance, Meshnet growth, and ecosystem development.")
     eliza_input = st.text_input("Ask Eliza (Boardroom):")
@@ -214,7 +335,7 @@ with tab4:
     st.warning("Eliza AI Boardroom provides simulated strategic guidance and is under continuous development for real-time integration.")
     st.markdown("</div>", unsafe_allow_html=True)
 
-with tab5:
+with tab6:
     st.markdown("<div class='card'><h2>Session Profile & Ecosystem Analytics</h2>", unsafe_allow_html=True)
     st.write("Your current session profile (local only):")
     st.json(st.session_state.profile)
@@ -231,5 +352,4 @@ with tab5:
 
 st.markdown("---")
 st.write("<span style='color:#00ff88;font-weight:bold;'>XMRT DAO on Meshnet</span> | Empowering Decentralized Futures | Contact: <a href='mailto:contact@xmrt.org' style='color:#00ff88;'>contact@xmrt.org</a>", unsafe_allow_html=True)
-
 
