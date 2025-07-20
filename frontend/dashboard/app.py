@@ -351,5 +351,5 @@ with tab6:
     st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("---")
-st.write("<span style='color:#00ff88;font-weight:bold;'>XMRT DAO on Meshnet</span> | Empowering Decentralized Futures | Contact: <a href='mailto:contact@xmrt.org' style='color:#00ff88;'>contact@xmrt.org</a>", unsafe_allow_html=True)
+st.write("<span style='color:#00ff88;font-weight:bold;'>XMRT DAO on Meshnet</span> | Empowering Decentralized Futures | Contact: <a href='mailto:xmrtnet@gmail.com' style='color:#00ff88;'>xmrtnet@gmail.com</a>", unsafe_allow_html=True)
 
