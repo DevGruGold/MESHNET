@@ -7,39 +7,39 @@ st.set_page_config(page_title="XMRT DAO – Corporate Meshnet", layout="wide")
 # --- Corporate Fintech Styling ---
 st.markdown("""
     <style>
-        body { background: #f4f7fb !important; color: #222; font-family: 'Inter', 'Arial', sans-serif; }
-        h1, h2, h3, h4, h5 { color: #1d3557; }
+        body { background: #1a1a1a !important; color: #e0e0e0; font-family: 'Inter', 'Arial', sans-serif; }
+        h1, h2, h3, h4, h5 { color: #00ff88; }
         .stButton > button {
-            background: linear-gradient(90deg, #276ef1 0%, #5ad1e6 100%);
-            color: #fff !important;
+            background: linear-gradient(90deg, #00ff88 0%, #00cc66 100%);
+            color: #1a1a1a !important;
             width: 100%;
             height: 50px;
             font-size: 20px;
             border-radius: 7px;
             font-weight: 600;
             margin-bottom: 12px;
-            box-shadow: 0 2px 12px #5ad1e644;
+            box-shadow: 0 2px 12px #00ff8844;
         }
         .stTextInput > div > input, .stNumberInput > div > input {
-            background: #fff;
-            color: #222;
+            background: #2d2d2d;
+            color: #e0e0e0;
             font-size: 18px;
             border-radius: 7px;
-            border: 1.5px solid #276ef1;
+            border: 1.5px solid #00ff88;
         }
         .onboarding-box {
-            background: #fff;
-            border: 1.5px solid #e0e5ec;
-            box-shadow: 0 4px 24px #5ad1e622;
+            background: #2d2d2d;
+            border: 1.5px solid #00ff88;
+            box-shadow: 0 4px 24px #00ff8822;
             padding: 28px 22px 18px 22px;
             border-radius: 14px;
             margin-bottom: 20px;
         }
         .profile-chip {
             display: inline-block;
-            background: #e8f1fa;
-            color: #276ef1;
-            border: 1.5px solid #ff6600;
+            background: #00ff88;
+            color: #1a1a1a;
+            border: 1.5px solid #00ff88;
             padding: 5px 18px;
             margin: 3px 6px 3px 0;
             border-radius: 20px;
@@ -47,38 +47,38 @@ st.markdown("""
             font-weight: 600;
         }
         .card {
-            background: #fff;
+            background: #2d2d2d;
             border-radius: 14px;
-            box-shadow: 0 3px 16px #1d355722;
+            box-shadow: 0 3px 16px #00ff8822;
             padding: 26px 22px 18px 22px;
             margin-bottom: 26px;
-            border: 1.5px solid #e0e5ec;
+            border: 1.5px solid #00ff88;
         }
-        .orange { color: #ff6600; font-weight: bold; }
+        .orange { color: #00ff88; font-weight: bold; }
         .interaction-btn {
-            background: linear-gradient(90deg, #ff6600 0%, #276ef1 100%);
-            color: #fff !important;
+            background: linear-gradient(90deg, #00ff88 0%, #00cc66 100%);
+            color: #1a1a1a !important;
             font-weight: 600;
             border-radius: 8px;
             font-size: 19px;
             margin-bottom: 8px;
         }
         .stTabs [data-baseweb="tab-list"] {
-            background: #f4f7fb;
+            background: #1a1a1a;
             border-radius: 10px 10px 0 0;
         }
         .stTabs [data-baseweb="tab"] {
-            color: #276ef1;
-            background: #e8f1fa;
+            color: #00ff88;
+            background: #2d2d2d;
             border-radius: 10px 10px 0 0;
             padding: 10px 18px;
             margin-right: 2px;
             font-size: 18px;
         }
         .stTabs [aria-selected="true"] {
-            color: #fff !important;
-            background: linear-gradient(90deg, #276ef1 0%, #5ad1e6 100%);
-            border-bottom: 3px solid #ff6600 !important;
+            color: #1a1a1a !important;
+            background: linear-gradient(90deg, #00ff88 0%, #00cc66 100%);
+            border-bottom: 3px solid #00ff88 !important;
         }
         @media (max-width: 700px) {
             .onboarding-box, .card { padding: 12px 6px 10px 6px; }
@@ -95,18 +95,20 @@ if "profile" not in st.session_state:
 
 # --- Onboarding Flow ---
 if not st.session_state.onboarded:
-    st.markdown('<div class="onboarding-box">', unsafe_allow_html=True)
-    st.markdown('<h1>XMRT DAO <span class="orange">on Meshnet</span></h1>', unsafe_allow_html=True)
-    st.markdown('<h3>Welcome to the professional mesh for AI, agents, and crypto payments.</h3>', unsafe_allow_html=True)
+    st.markdown("<div class=\"onboarding-box\">", unsafe_allow_html=True)
+    st.markdown("<h1>XMRT DAO <span class=\"orange\">on Meshnet</span></h1>", unsafe_allow_html=True)
+    st.markdown("<h3>Welcome to the XMRT Ecosystem: A decentralized autonomous organization powered by AI and secure mesh networking.</h3>", unsafe_allow_html=True)
     st.write("Get started instantly—no login, no wallet connect. Your session is private and local.")
-    name = st.text_input("🧑 Name or Alias", help="Your mesh or investor identity")
-    role = st.selectbox("Your Mode", ["Miner", "Investor / Guest", "Just Curious"])
-    mesh_alias = st.text_input("Mesh Handle (display for node/miner tracking)", max_chars=18)
-    if role == "Miner":
-        purpose = st.selectbox("Mining Purpose", ["Connectivity", "Bridge Data", "Run Agent", "Other"])
+    name = st.text_input("🧑 Name or Alias", help="Your XMRT DAO or Meshnet identity")
+    role = st.selectbox("Your Role", ["XMRT Miner", "XMRT Investor / Guest", "XMRT Developer", "Just Curious"])
+    mesh_alias = st.text_input("Meshnet Handle (display for node/miner tracking)", max_chars=18)
+    if role == "XMRT Miner":
+        purpose = st.selectbox("Mining Purpose", ["Provide Connectivity", "Bridge Data", "Run AI Agent", "Secure Network", "Other"])
+    elif role == "XMRT Developer":
+        purpose = st.selectbox("Development Focus", ["Smart Contracts", "Frontend DApps", "AI Agents", "Meshnet Protocols", "Other"])
     else:
         purpose = "N/A"
-    if st.button("🚦 Enter XMRT Meshnet"):
+    if st.button("🚦 Enter XMRT Ecosystem"):
         st.session_state.onboarded = True
         st.session_state.profile = {
             "name": name,
@@ -119,12 +121,12 @@ if not st.session_state.onboarded:
     st.stop()
 
 # --- Header/Profile ---
-st.markdown('<div style="background:#e8f1fa; padding:13px 22px 10px 22px; border-radius:10px; margin-bottom:20px;">', unsafe_allow_html=True)
+st.markdown("<div style=\"background:#2d2d2d; padding:13px 22px 10px 22px; border-radius:10px; margin-bottom:20px;\">", unsafe_allow_html=True)
 cols = st.columns([2,2,6])
-with cols[0]: st.markdown(f'<div class="profile-chip">👤 {st.session_state.profile.get("name","")}</div>', unsafe_allow_html=True)
-with cols[1]: st.markdown(f'<div class="profile-chip">🔗 {st.session_state.profile.get("mesh_alias","")}</div>', unsafe_allow_html=True)
-with cols[2]: st.markdown(f'<div class="profile-chip">🛠️ {st.session_state.profile.get("role","")}: {st.session_state.profile.get("purpose","")}</div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
+with cols[0]: st.markdown(f"<div class=\"profile-chip\">👤 {st.session_state.profile.get(\"name\",\"\")}</div>", unsafe_allow_html=True)
+with cols[1]: st.markdown(f"<div class=\"profile-chip\">🔗 {st.session_state.profile.get(\"mesh_alias\",\"\")}</div>", unsafe_allow_html=True)
+with cols[2]: st.markdown(f"<div class=\"profile-chip\">🛠️ {st.session_state.profile.get(\"role\",\"\")}: {st.session_state.profile.get(\"purpose\",\"\")}</div>", unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
 # --- Session Tracking/Stats ---
 if "visit_count" not in st.session_state:
@@ -137,91 +139,97 @@ st.session_state.session_events.append(f"Visited at step {st.session_state.visit
 
 # --- Main Dashboard Tabs ---
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "Mesh Dashboard",
-    "Interact",
-    "CashDapp",
-    "Eliza Boardroom",
-    "Session"
+    "XMRT Meshnet Dashboard",
+    "XMRT DAO Interactions",
+    "XMRT CashDapp",
+    "Eliza AI Boardroom",
+    "Session & Analytics"
 ])
 
 with tab1:
-    st.markdown('<div class="card"><h2>Mesh Miner Dashboard</h2>', unsafe_allow_html=True)
-    st.metric("Active Nodes", 8, "+2 new in last hour")
-    st.metric("Mesh Sessions (demo)", st.session_state.visit_count)
-    st.write('<span class="orange">Node1</span> (active), Node2 (idle), Node3 (joining)...', unsafe_allow_html=True)
-    if st.button("Simulate Mesh Message", key="meshmsg"):
-        st.session_state.session_events.append("Mesh Message Sent")
-        st.success("Mesh message sent! (simulated)")
-    st.success("Mining enabled! (simulated)")
+    st.markdown("<div class=\"card\"><h2>XMRT Meshnet Overview</h2>", unsafe_allow_html=True)
+    st.metric("Active Meshnet Nodes", 1234, "+57 new in last 24h")
+    st.metric("Total Mesh Sessions (demo)", st.session_state.visit_count)
+    st.write("<span class=\"orange\">Node Status:</span> Decentralized, resilient, and growing. Monitor your connected nodes and network health.", unsafe_allow_html=True)
+    if st.button("Simulate Meshnet Data Transfer", key="meshmsg"):
+        st.session_state.session_events.append("Meshnet Data Transfer Simulated")
+        st.success("Secure data transfer across Meshnet completed! (simulated)")
+    st.success("XMRT Meshnet is active and securing communications.")
     st.markdown("</div>", unsafe_allow_html=True)
 
 with tab2:
-    st.markdown('<div class="card"><h2>Ways to Interact with XMRT Ecosystem</h2>', unsafe_allow_html=True)
-    st.write("**No login, no tokens required—just tap to interact!**")
+    st.markdown("<div class=\"card\"><h2>Engage with XMRT DAO</h2>", unsafe_allow_html=True)
+    st.write("**Participate in governance, contribute to the ecosystem, and earn rewards!**")
     c1, c2, c3 = st.columns(3)
     with c1:
-        if st.button("🟦 Join Meshnet Mining"):
-            st.session_state.session_events.append("Joined Meshnet mining")
-            st.info("You mined a block! (simulated)")
-        if st.button("🤖 Deploy an Agent"):
-            st.session_state.session_events.append("Deployed an agent")
-            st.info("Agent deployed to mesh (simulated)")
+        if st.button("🟦 Join XMRT Mining Pool"):
+            st.session_state.session_events.append("Joined XMRT Mining Pool")
+            st.info("You are now contributing to XMRT network security! (simulated)")
+        if st.button("🤖 Deploy XMRT AI Agent"):
+            st.session_state.session_events.append("Deployed XMRT AI Agent")
+            st.info("Your AI agent is now active on the Meshnet! (simulated)")
     with c2:
-        if st.button("💬 Vote in DAO"):
-            st.session_state.session_events.append("Voted in DAO")
-            st.success("Demo vote cast for XMRT proposal!")
-        if st.button("🔗 Bridge Data"):
-            st.session_state.session_events.append("Data bridged")
-            st.success("Data bridged to another mesh or chain!")
+        if st.button("💬 Vote on XMRT Proposals"):
+            st.session_state.session_events.append("Voted on XMRT Proposal")
+            st.success("Your vote has been cast for XMRT DAO governance! (simulated)")
+        if st.button("🔗 Bridge XMRT Assets"):
+            st.session_state.session_events.append("XMRT Assets Bridged")
+            st.success("XMRT assets successfully bridged to another chain! (simulated)")
     with c3:
-        if st.button("🟧 Tip Miner (Monero style)"):
-            st.session_state.session_events.append("Tipped miner")
-            st.success("Tip sent to mesh miner (simulated, Monero orange!)")
-        if st.button("📲 Invite a Friend"):
-            st.session_state.session_events.append("Invited friend")
-            st.info("Invite link generated (demo only)")
-    st.write("**Coming soon: Real mesh mining, on-chain voting, and agent deployments.**")
+        if st.button("🟧 Stake XMRT Tokens"):
+            st.session_state.session_events.append("Staked XMRT Tokens")
+            st.success("XMRT tokens staked, earning passive rewards! (simulated)")
+        if st.button("📲 Invite XMRT Community Member"):
+            st.session_state.session_events.append("Invited XMRT Community Member")
+            st.info("Help grow the XMRT Ecosystem! (demo only)")
+    st.write("**Real-time mesh mining, on-chain governance, and AI agent deployments are actively being integrated.**")
     st.markdown("</div>", unsafe_allow_html=True)
 
 with tab3:
-    st.markdown('<div class="card"><h2>CashDapp – Crypto Payments Demo</h2>', unsafe_allow_html=True)
-    st.write("Simulate sending, receiving, or bridging digital assets on mesh. All demo—no real crypto.")
-    cash_amount = st.number_input("Amount to send", min_value=0.01, step=0.01, value=1.00)
-    cash_to = st.text_input("Destination (mesh alias or wallet)")
+    st.markdown("<div class=\"card\"><h2>XMRT CashDapp – Secure Payments & Transfers</h2>", unsafe_allow_html=True)
+    st.write("Experience seamless and private digital asset transactions within the XMRT Ecosystem. All demo—no real crypto.")
+    cash_amount = st.number_input("Amount to send (XMRT)", min_value=0.01, step=0.01, value=100.00)
+    cash_to = st.text_input("Recipient (Meshnet Handle or XMRT Wallet Address)")
     send, request = st.columns(2)
     with send:
-        if st.button("💸 Send Payment", key="sendpay"):
-            st.session_state.session_events.append(f"CashDapp: Sent {cash_amount} to {cash_to}")
-            st.success(f"Payment of ${cash_amount} sent to {cash_to} (simulated)!")
+        if st.button("💸 Send XMRT Payment", key="sendpay"):
+            st.session_state.session_events.append(f"CashDapp: Sent {cash_amount} XMRT to {cash_to}")
+            st.success(f"Payment of {cash_amount} XMRT sent to {cash_to} (simulated)!")
     with request:
-        if st.button("🟧 Request Payment", key="reqpay"):
-            st.session_state.session_events.append(f"CashDapp: Requested {cash_amount} from {cash_to}")
-            st.info(f"Payment request for ${cash_amount} sent to {cash_to} (simulated)!")
-    st.write('<div class="orange">Track your mesh payments, bridge to Monero, and manage digital assets. (All demo, no real money!)</div>', unsafe_allow_html=True)
-    st.markdown('<span class="orange">Monero support coming soon!</span>', unsafe_allow_html=True)
+        if st.button("🟧 Request XMRT Payment", key="reqpay"):
+            st.session_state.session_events.append(f"CashDapp: Requested {cash_amount} XMRT from {cash_to}")
+            st.info(f"Payment request for {cash_amount} XMRT sent to {cash_to} (simulated)!")
+    st.write("<div class=\"orange\">Track your XMRT transactions, bridge to other cryptocurrencies, and manage your digital assets securely. (All demo, no real money!)</div>", unsafe_allow_html=True)
+    st.markdown("<span class=\"orange\">Full Monero and cross-chain support coming soon!</span>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
 with tab4:
-    st.markdown('<div class="card"><h2>Eliza Executive Boardroom 🧑‍💼</h2>', unsafe_allow_html=True)
-    st.write("Chat with Eliza, your AI board advisor. Ask about XMRT DAO, mesh growth, or investor strategy.")
+    st.markdown("<div class=\"card\"><h2>Eliza AI Boardroom 🧑‍💼 – Strategic Insights</h2>", unsafe_allow_html=True)
+    st.write("Engage with Eliza, our advanced AI board advisor. Get real-time insights on XMRT DAO governance, Meshnet growth, and ecosystem development.")
     eliza_input = st.text_input("Ask Eliza (Boardroom):")
     if st.button("Ask Eliza"):
-        eliza_res = f"Eliza: For '{eliza_input}', the board suggests focusing on mesh resilience and investor transparency. XMRT DAO's next move is global mesh partnerships."
+        eliza_res = f"Eliza: For '{eliza_input}', the XMRT DAO board emphasizes sustainable Meshnet expansion and robust AI integration. Our focus remains on empowering decentralized innovation and community-driven growth."
         st.session_state.session_events.append(f"Eliza Boardroom: {eliza_input}")
         st.info(eliza_res)
-    st.warning("Eliza Boardroom is a simulation for investor/exec Q&A.")
+    st.warning("Eliza AI Boardroom provides simulated strategic guidance and is under continuous development for real-time integration.")
     st.markdown("</div>", unsafe_allow_html=True)
 
 with tab5:
-    st.markdown('<div class="card"><h2>Session Profile & Tracking</h2>', unsafe_allow_html=True)
+    st.markdown("<div class=\"card\"><h2>Session Profile & Ecosystem Analytics</h2>", unsafe_allow_html=True)
     st.write("Your current session profile (local only):")
     st.json(st.session_state.profile)
-    st.write("Session events (track your clicks in this session):")
+    st.write("Session events (track your interactions within this session):")
     st.json(st.session_state.session_events)
-    if st.button("🔄 Start Over"):
+    st.write("<h3>XMRT Ecosystem Metrics (Simulated)</h3>", unsafe_allow_html=True)
+    st.metric("Total XMRT Staked", "15,000,000 XMRT", "+1.2M last month")
+    st.metric("Active AI Agents", "500+", "+50 new this week")
+    st.metric("Meshnet Data Throughput", "2.5 TB/day", "+0.3 TB")
+    if st.button("🔄 Reset Session & Start Over"):
         st.session_state.onboarded = False
         st.experimental_rerun()
     st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("---")
-st.write('<span style="color:#276ef1;font-weight:bold;">XMRT DAO on Meshnet</span> | All rights reserved | Contact: <a href="mailto:xmrtnet@gmail.com" style="color:#ff6600;">xmrtnet@gmail.com</a>', unsafe_allow_html=True)
+st.write("<span style=\"color:#00ff88;font-weight:bold;\">XMRT DAO on Meshnet</span> | Empowering Decentralized Futures | Contact: <a href=\"mailto:contact@xmrt.org\" style=\"color:#00ff88;\">contact@xmrt.org</a>", unsafe_allow_html=True)
+
+
