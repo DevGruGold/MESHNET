@@ -1,35 +1,24 @@
 {
-  "name": "meshnet-phase2",
+  "name": "meshnet-contracts",
   "version": "1.0.0",
-  "description": "MESHNET Phase 2 - Offline mesh mining with autonomous DAO operations",
+  "description": "Smart contracts for MESHNET project",
   "main": "index.js",
   "scripts": {
     "compile": "hardhat compile",
-    "test": "hardhat test",
-    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy": "hardhat run scripts/deploy.js --network sepolia",
     "deploy:local": "hardhat run scripts/deploy.js --network localhost",
-    "node": "hardhat node",
-    "verify": "hardhat verify --network sepolia"
+    "test": "hardhat test"
   },
-  "keywords": [
-    "blockchain",
-    "ethereum",
-    "mining",
-    "dao",
-    "meshnet",
-    "xmrt"
-  ],
-  "author": "manus-agent-meshnet-deployer",
-  "license": "MIT",
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
-    "hardhat": "^2.17.0"
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@openzeppelin/hardhat-upgrades": "^1.28.0",
+    "hardhat": "^2.19.4",
+    "ethers": "^5.7.2",
+    "dotenv": "^16.3.1"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.9.0",
-    "dotenv": "^16.0.0",
-    "web3": "^4.0.0",
-    "eth-account": "^0.8.0"
+    "@openzeppelin/contracts": "^4.9.3",
+    "@openzeppelin/contracts-upgradeable": "^4.9.3"
   }
 }
 

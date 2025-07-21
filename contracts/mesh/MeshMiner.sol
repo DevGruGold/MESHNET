@@ -2,12 +2,13 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
 interface IXMRT {
     function rewardFromMesh(address to, uint256 amount) external;
 }
 
-contract MeshMiner is AccessControl {
+contract MeshMiner is AccessControl, Initializable {
     bytes32 public constant MESH_VALIDATOR_ROLE = keccak256("MESH_VALIDATOR_ROLE");
 
     mapping(bytes32 => address) public rigIdToOwner;
@@ -19,9 +20,15 @@ contract MeshMiner is AccessControl {
 
     IXMRT public xmrtContract;
 
-    constructor(address _xmrtAddress) {
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
+
+    function initialize(address _xmrtAddress, address defaultAdmin) public initializer {
         xmrtContract = IXMRT(_xmrtAddress);
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        __AccessControl_init();
+        _setupRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
     }
 
     function registerRig(bytes32 rigId, address owner) public {
@@ -31,8 +38,8 @@ contract MeshMiner is AccessControl {
     }
 
     function submitProof(bytes32 rigId, uint256 hashes, bytes memory signature) public onlyRole(MESH_VALIDATOR_ROLE) {
-        // In a real scenario, validateMeshSig would be called here or an equivalent on-chain validation
-        // For this MVP, we assume the MESH_VALIDATOR_ROLE ensures validity.
+        // This function assumes that the MESH_VALIDATOR_ROLE has already verified the proof off-chain.
+        // The `validateMeshSig` function is a placeholder for off-chain validation by Eliza/Oracle.
         rigIdToHashes[rigId] = hashes;
         emit ProofSubmitted(rigId, hashes, signature);
     }
@@ -42,10 +49,9 @@ contract MeshMiner is AccessControl {
         emit RewardDistributed(miner, rewardAmount);
     }
 
-    // Function to validate mesh signature off-chain (placeholder for Eliza/Oracle)
+    // This function is a placeholder for off-chain signature validation by Eliza/Oracle.
+    // It is not intended to be called on-chain for actual validation in this contract.
     function validateMeshSig(bytes32 rigId, bytes memory signature) public pure returns (bool) {
-        // This would involve more complex signature verification logic, possibly involving a specific key.
-        // For the MVP, this is a placeholder.
         return true;
     }
 }
