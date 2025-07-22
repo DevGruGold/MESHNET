@@ -45,3 +45,10 @@ Badges: [![CI](https://github.com/DevGruGold/MESHNET/actions/workflows/ci.yml/ba
 - **Authentication:** Secure dashboard with passwords/OAuth.
 - **Advanced Features:** Live mesh data and agent analytics.
 - **Cloud Demo:** Deployed via Render/Heroku—try the live version [here](link).
+
+
+
+## Development Branches
+
+- **`phase-2-deploy`**: This branch contains the ongoing development for MESHNET Phase 2, including offline mesh mining capabilities, autonomous DAO operations, and Sepolia testnet deployment. For the latest features and updates, please refer to this branch.
+
