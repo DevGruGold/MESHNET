@@ -52,3 +52,10 @@ Badges: [![CI](https://github.com/DevGruGold/MESHNET/actions/workflows/ci.yml/ba
 
 - **`phase-2-deploy`**: This branch contains the ongoing development for MESHNET Phase 2, including offline mesh mining capabilities, autonomous DAO operations, and Sepolia testnet deployment. For the latest features and updates, please refer to this branch.
 
+
+
+
+## Agents Documentation
+
+For detailed information on the autonomous agents operating within MESHNET, please refer to the [Agents Documentation](agents.md).
+
