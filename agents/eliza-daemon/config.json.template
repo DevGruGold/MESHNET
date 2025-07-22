@@ -1,0 +1,8 @@
+{
+  "TWITTER_BEARER": "your_twitter_bearer_token",
+  "SUPABASE_URL": "https://your-project.supabase.co",
+  "SUPABASE_KEY": "your_supabase_anon_key",
+  "XMRT_API": "https://api.xmrt.io/v1/miners",
+  "OPENAI_KEY": "sk-your_openai_key",
+  "DISCORD_WEBHOOK": "https://discord.com/api/webhooks/..."
+}
