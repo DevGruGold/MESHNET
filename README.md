@@ -9,8 +9,15 @@ MESHNET Phase 2 introduces offline-capable mesh mining with autonomous DAO opera
 ### Core Components
 
 1. **Smart Contracts**
-   - `XMRT.sol`: Extended ERC20 token with DAO functionality and mesh reward integration
-   - `MeshMiner.sol`: Handles rig registration, proof submission, and reward distribution
+   - `DAO.sol`: Manages decentralized autonomous organization proposals and voting.
+   - `Governance.sol`: Handles governance-related functions and roles.
+   - `MeshMiner.sol`: Manages rig registration, proof submission, and reward distribution.
+   - `MeshNetDeployer.sol`: Utility contract for deploying other MeshNet contracts.
+   - `Oracle.sol`: Provides external data feeds to smart contracts.
+   - `ProofVerifier.sol`: Verifies cryptographic proofs submitted by miners.
+   - `ReputationSystem.sol`: Manages and tracks reputation scores within the network.
+   - `Treasury.sol`: Securely holds and manages project funds.
+   - `XMRT.sol`: Extended ERC20 token with DAO functionality and mesh reward integration.
 
 2. **Autonomous Agents**
    - **Eliza**: Cognitive creator with CEO_AI_ROLE for autonomous proposal creation
