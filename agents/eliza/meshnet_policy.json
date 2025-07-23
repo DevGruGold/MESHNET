@@ -1,0 +1,8 @@
+{
+  "canPropose": true,
+  "rewardMode": "hash-weighted",
+  "minRigProof": 50000,
+  "proposalIntervalSec": 10800,
+  "quorumOverride": false
+}
+

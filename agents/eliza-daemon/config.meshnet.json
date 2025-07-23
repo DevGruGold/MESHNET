@@ -1,0 +1,24 @@
+{
+  "TWITTER_BEARER": "your_twitter_bearer_token",
+  "SUPABASE_URL": "https://your-project.supabase.co",
+  "SUPABASE_KEY": "your_supabase_anon_key",
+  "XMRT_API": "https://api.xmrt.io/v1/miners",
+  "OPENAI_API_KEY": "sk-your_openai_key",
+  "DISCORD_WEBHOOK": "https://discord.com/api/webhooks/...",
+  "MESHNET_CONTRACTS": {
+    "XMRT_TOKEN": "0x...",
+    "MESH_MINER": "0x...",
+    "RPC_URL": "https://sepolia.infura.io/v3/your-key",
+    "VALIDATOR_PRIVATE_KEY": "0x...",
+    "GAS_LIMIT": 500000,
+    "GAS_PRICE": "20000000000"
+  },
+  "DAEMON_CONFIG": {
+    "LOOP_INTERVAL_MINUTES": 10,
+    "MIN_HASH_THRESHOLD": 1000000,
+    "REWARD_DISTRIBUTION_INTERVAL": "1h",
+    "MAX_REWARD_PER_BATCH": "1000000000000000000",
+    "ENABLE_AUTO_PROPOSALS": true,
+    "PROPOSAL_VOTING_PERIOD": 86400
+  }
+}

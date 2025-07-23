@@ -1,0 +1,58 @@
+{
+  "redis": {
+    "host": "localhost",
+    "port": 6379,
+    "password": null,
+    "databases": {
+      "eliza": 0,
+      "langflow": 1,
+      "langgraph": 2,
+      "shared": 3
+    },
+    "connection": {
+      "socket_connect_timeout": 5,
+      "socket_timeout": 5,
+      "retry_on_timeout": true,
+      "max_connections": 50
+    },
+    "memory": {
+      "conversation_ttl": 2592000,
+      "context_ttl": 3600,
+      "decision_ttl": 604800,
+      "knowledge_ttl": 0,
+      "checkpoint_ttl": 86400
+    },
+    "limits": {
+      "max_conversations_per_agent": 1000,
+      "max_decisions_per_agent": 500,
+      "max_checkpoints_per_thread": 50,
+      "max_search_results": 100
+    }
+  },
+  "agents": {
+    "eliza": {
+      "agent_id": "eliza_meshnet",
+      "memory_enabled": true,
+      "auto_checkpoint": true,
+      "memory_search_enabled": true
+    },
+    "langflow": {
+      "component_id": "langflow_meshnet",
+      "workflow_state_ttl": 3600,
+      "execution_history_limit": 100
+    },
+    "langgraph": {
+      "checkpointer_id": "langgraph_meshnet",
+      "auto_checkpoint": true,
+      "checkpoint_interval": 300,
+      "memory_integration": true
+    }
+  },
+  "monitoring": {
+    "health_check_interval": 60,
+    "memory_usage_alerts": true,
+    "performance_metrics": true,
+    "log_level": "INFO"
+  }
+}
+
