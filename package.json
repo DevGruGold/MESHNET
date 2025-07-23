@@ -1,8 +1,24 @@
 {
-  "name": "meshnet",
+  "name": "meshnet-contracts",
   "version": "1.0.0",
-  "workspaces": ["frontend/*", "backend/*"],
+  "description": "Smart contracts for MESHNET project",
+  "main": "index.js",
   "scripts": {
-    "start": "npm run start --workspace=frontend/web"
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "test": "hardhat test"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@openzeppelin/hardhat-upgrades": "^3.9.1",
+    "hardhat": "^2.19.4",
+    "ethers": "^5.7.2",
+    "dotenv": "^16.3.1"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
+    "@openzeppelin/contracts-upgradeable": "^4.9.3"
   }
 }
+
