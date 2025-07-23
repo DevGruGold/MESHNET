@@ -2,11 +2,11 @@
 
 # Core Python packages
 asyncio-mqtt==0.11.1
-aiohttp==3.8.5
+aiohttp==3.12.14
 aiofiles==23.1.0
 
 # AI and Machine Learning
-langchain==0.0.354
+langchain==0.2.5
 openai==0.28.1
 tiktoken==0.5.1
 
@@ -31,7 +31,7 @@ celery==5.3.4
 redis==5.0.1
 
 # HTTP Requests and APIs
-requests==2.31.0
+requests==2.32.4
 httpx==0.25.2
 
 # Data Processing
@@ -49,13 +49,13 @@ pydantic==2.5.0
 pyyaml==6.0.1
 
 # Cryptography and Security
-cryptography==41.0.7
+cryptography==44.0.1
 pynacl==1.5.0
 
 # Development and Testing
 pytest==7.4.3
 pytest-asyncio==0.21.1
-black==23.11.0
+black==24.3.0
 flake8==6.1.0
 
 # System monitoring
