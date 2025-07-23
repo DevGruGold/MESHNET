@@ -1,4 +1,3 @@
-
 from flask import Flask, request, jsonify
 from git import Repo
 import os, json, time
@@ -11,11 +10,13 @@ REPO_NAME = "MESHNET"
 CLONE_DIR = "/tmp/meshnet_repo"
 SCOREBOARD_FILE = "meshnet_scoreboard.json"
 
+
 def clone_repo():
     if os.path.exists(CLONE_DIR):
         os.system(f"rm -rf {CLONE_DIR}")
     url = f"https://{GITHUB_USERNAME}:{GITHUB_TOKEN}@github.com/{GITHUB_USERNAME}/{REPO_NAME}.git"
     return Repo.clone_from(url, CLONE_DIR)
+
 
 @app.route("/submit", methods=["POST"])
 def update_scoreboard():
@@ -35,10 +36,7 @@ def update_scoreboard():
     found = False
     for entry in scoreboard:
         if entry["node_id"] == data["node_id"]:
-            entry.update({
-                "hashrate": data["hashrate"],
-                "timestamp": data["timestamp"]
-            })
+            entry.update({"hashrate": data["hashrate"], "timestamp": data["timestamp"]})
             found = True
             break
     if not found:
@@ -52,6 +50,7 @@ def update_scoreboard():
     repo.remote(name="origin").push()
 
     return jsonify({"status": "success", "updated": data})
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=7860)
