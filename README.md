@@ -343,3 +343,23 @@ By focusing on these areas, the MESHNET project can be significantly improved an
 For detailed information on the autonomous agents operating within MESHNET, please refer to the [Agents Documentation](agents.md).
 
 
+
+
+## Recent Improvements
+
+### Redis Integration for Agent Long-Term Memory
+
+One of the significant recent improvements is the integration of Redis for managing the long-term memory of the autonomous agents, particularly Eliza. This enhancement allows Eliza to maintain state and context across multiple interactions and proposal cycles, leading to more intelligent and consistent decision-making in DAO operations. The `agent_loop.py` in the `agents/eliza` directory now leverages Redis for persistent storage of agent-related data, improving the overall robustness and efficiency of the autonomous system.
+
+### Eliza Agent Configuration (`meshnet_policy.json`)
+
+The Eliza agent's behavior is now configurable via the `meshnet_policy.json` file. This JSON configuration allows for dynamic adjustments to Eliza's operational parameters without requiring code changes. Key configurable parameters include:
+
+- `canPropose`: Boolean, enables or disables Eliza's ability to create DAO proposals.
+- `rewardMode`: String, specifies the reward calculation mechanism (e.g., "hash-weighted").
+- `minRigProof`: Integer, the minimum hash count required for a rig to be considered for proof submission.
+- `proposalIntervalSec`: Integer, the minimum time interval in seconds between Eliza's proposal creations.
+- `quorumOverride`: Boolean, allows overriding quorum requirements for proposals under specific conditions.
+
+This externalized configuration enhances the flexibility and adaptability of the Eliza agent, allowing for easier fine-tuning and governance by the MESHNET community.
+
