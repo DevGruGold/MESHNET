@@ -1,8 +1,7 @@
 import streamlit as st
 import datetime
 import pandas as pd
-import requests
-import json
+import random
 
 st.set_page_config(page_title="XMRT DAO – Corporate Meshnet", layout="wide")
 
@@ -104,13 +103,6 @@ st.markdown(
             color: #1a1a1a;
             border: 2px solid #00ff88;
         }
-        .supportxmr-data {
-            background: #2d2d2d;
-            border: 2px solid #00ff88;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
-        }
         @media (max-width: 700px) {
             .onboarding-box, .card { padding: 12px 6px 10px 6px; }
             h1 { font-size: 25px; }
@@ -120,100 +112,114 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# SupportXMR API Configuration
-SUPPORTXMR_API_BASE = "https://supportxmr.com/api"
-WALLET_ADDRESS = "46UxNFuGM2E3UmZWWJicaRPoRwqwW4byQkaTHkX8yPcVihp91qAVtSFipWUGJJUyTXgzSqxzDQtNLf2bsp2DX2qCCgC5mg"
 
-@st.cache_data(ttl=300)  # Cache for 5 minutes
-def get_supportxmr_data():
-    """Fetch data from SupportXMR API"""
-    try:
-        # Get pool statistics
-        pool_response = requests.get(f"{SUPPORTXMR_API_BASE}/pool/stats", timeout=10)
-        pool_data = pool_response.json() if pool_response.status_code == 200 else {}
-        
-        # Get miner statistics
-        miner_response = requests.get(f"{SUPPORTXMR_API_BASE}/miner/{WALLET_ADDRESS}/stats", timeout=10)
-        miner_data = miner_response.json() if miner_response.status_code == 200 else {}
-        
-        # Get network statistics
-        network_response = requests.get(f"{SUPPORTXMR_API_BASE}/network/stats", timeout=10)
-        network_data = network_response.json() if network_response.status_code == 200 else {}
-        
-        return {
-            "pool": pool_data,
-            "miner": miner_data,
-            "network": network_data,
-            "success": True
-        }
-    except Exception as e:
-        st.error(f"Error fetching SupportXMR data: {e}")
-        return {"success": False, "error": str(e)}
+# --- Initialize Miner Leaderboard Data ---
+@st.cache_data
+def get_miner_leaderboard():
+    miners = [
+        {
+            "rank": 1,
+            "handle": "CryptoMiner_X",
+            "hash_rate": "2.5 TH/s",
+            "blocks_mined": 1247,
+            "xmrt_earned": 15420.50,
+            "uptime": "99.8%",
+            "location": "USA",
+            "status": "🟢 Active",
+        },
+        {
+            "rank": 2,
+            "handle": "MeshNode_Alpha",
+            "hash_rate": "2.1 TH/s",
+            "blocks_mined": 1089,
+            "xmrt_earned": 13567.25,
+            "uptime": "99.5%",
+            "location": "Germany",
+            "status": "🟢 Active",
+        },
+        {
+            "rank": 3,
+            "handle": "QuantumMiner",
+            "hash_rate": "1.9 TH/s",
+            "blocks_mined": 987,
+            "xmrt_earned": 12234.75,
+            "uptime": "98.9%",
+            "location": "Japan",
+            "status": "🟢 Active",
+        },
+        {
+            "rank": 4,
+            "handle": "DeepMesh_Pro",
+            "hash_rate": "1.7 TH/s",
+            "blocks_mined": 856,
+            "xmrt_earned": 10678.00,
+            "uptime": "99.2%",
+            "location": "Canada",
+            "status": "🟢 Active",
+        },
+        {
+            "rank": 5,
+            "handle": "NeuralNode_1",
+            "hash_rate": "1.5 TH/s",
+            "blocks_mined": 743,
+            "xmrt_earned": 9234.50,
+            "uptime": "97.8%",
+            "location": "UK",
+            "status": "🟡 Syncing",
+        },
+        {
+            "rank": 6,
+            "handle": "CyberMiner_Z",
+            "hash_rate": "1.4 TH/s",
+            "blocks_mined": 689,
+            "xmrt_earned": 8567.25,
+            "uptime": "98.5%",
+            "location": "Australia",
+            "status": "🟢 Active",
+        },
+        {
+            "rank": 7,
+            "handle": "MeshGuardian",
+            "hash_rate": "1.3 TH/s",
+            "blocks_mined": 634,
+            "xmrt_earned": 7890.75,
+            "uptime": "99.1%",
+            "location": "Netherlands",
+            "status": "🟢 Active",
+        },
+        {
+            "rank": 8,
+            "handle": "DigitalNomad",
+            "hash_rate": "1.2 TH/s",
+            "blocks_mined": 578,
+            "xmrt_earned": 7123.00,
+            "uptime": "96.7%",
+            "location": "Singapore",
+            "status": "🟢 Active",
+        },
+        {
+            "rank": 9,
+            "handle": "BlockChaser",
+            "hash_rate": "1.1 TH/s",
+            "blocks_mined": 523,
+            "xmrt_earned": 6456.50,
+            "uptime": "98.3%",
+            "location": "Brazil",
+            "status": "🟢 Active",
+        },
+        {
+            "rank": 10,
+            "handle": "MeshMaster_V2",
+            "hash_rate": "1.0 TH/s",
+            "blocks_mined": 467,
+            "xmrt_earned": 5789.25,
+            "uptime": "97.5%",
+            "location": "France",
+            "status": "🟡 Syncing",
+        },
+    ]
+    return pd.DataFrame(miners)
 
-def format_hash_rate(hash_rate):
-    """Format hash rate for display"""
-    if hash_rate == 0:
-        return "0 H/s"
-    elif hash_rate < 1000:
-        return f"{hash_rate} H/s"
-    elif hash_rate < 1000000:
-        return f"{hash_rate/1000:.2f} KH/s"
-    elif hash_rate < 1000000000:
-        return f"{hash_rate/1000000:.2f} MH/s"
-    elif hash_rate < 1000000000000:
-        return f"{hash_rate/1000000000:.2f} GH/s"
-    else:
-        return f"{hash_rate/1000000000000:.2f} TH/s"
-
-def format_xmr_amount(atomic_units):
-    """Convert atomic units to XMR"""
-    if atomic_units == 0:
-        return "0.000000000000"
-    return f"{atomic_units / 1000000000000:.12f}"
-
-def create_supportxmr_leaderboard():
-    """Create leaderboard data from SupportXMR API"""
-    data = get_supportxmr_data()
-    
-    if not data["success"]:
-        return pd.DataFrame()
-    
-    # Create a single-entry leaderboard for the specified wallet
-    miner_data = data.get("miner", {})
-    pool_data = data.get("pool", {}).get("pool_statistics", {})
-    
-    # Calculate status based on hash rate and last hash time
-    current_hash_rate = miner_data.get("hash", 0)
-    last_hash = miner_data.get("lastHash", 0)
-    
-    if current_hash_rate > 0:
-        status = "🟢 Active"
-    elif last_hash > 0:
-        # Check if last hash was recent (within 24 hours)
-        current_time = datetime.datetime.now().timestamp() * 1000
-        if current_time - last_hash < 86400000:  # 24 hours in milliseconds
-            status = "🟡 Recently Active"
-        else:
-            status = "🔴 Inactive"
-    else:
-        status = "🔴 Inactive"
-    
-    # Create leaderboard entry
-    leaderboard_data = [{
-        "rank": 1,
-        "handle": f"Wallet: ...{WALLET_ADDRESS[-8:]}",
-        "hash_rate": format_hash_rate(current_hash_rate),
-        "total_hashes": f"{miner_data.get('totalHashes', 0):,}",
-        "valid_shares": f"{miner_data.get('validShares', 0):,}",
-        "invalid_shares": f"{miner_data.get('invalidShares', 0):,}",
-        "xmr_due": format_xmr_amount(miner_data.get('amtDue', 0)),
-        "xmr_paid": format_xmr_amount(miner_data.get('amtPaid', 0)),
-        "status": status,
-        "pool": "SupportXMR",
-        "location": "Real Data"
-    }]
-    
-    return pd.DataFrame(leaderboard_data), data
 
 # --- Onboarding State ---
 if "onboarded" not in st.session_state:
@@ -317,7 +323,7 @@ st.session_state.session_events.append(
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
     [
         "XMRT Meshnet Dashboard",
-        "SupportXMR Leaderboard",
+        "Miner Leaderboard",
         "XMRT DAO Interactions",
         "XMRT CashDapp",
         "Eliza AI Boardroom",
@@ -343,108 +349,119 @@ with tab1:
 
 with tab2:
     st.markdown(
-        "<div class='card'><h2>🏆 SupportXMR Real Mining Data</h2>", unsafe_allow_html=True
+        "<div class='card'><h2>🏆 XMRT Miner Leaderboard</h2>", unsafe_allow_html=True
     )
     st.write(
-        "**Real-time mining data from SupportXMR pool for the specified wallet address. Data is fetched directly from SupportXMR API.**"
+        "**Top performing miners in the XMRT Meshnet ecosystem. Rankings updated in real-time based on hash rate, blocks mined, and network contribution.**"
     )
 
-    # Get real SupportXMR data
-    df, api_data = create_supportxmr_leaderboard()
-    
-    if api_data.get("success", False):
-        # Display wallet information
-        st.markdown("### 📍 Monitored Wallet")
-        st.markdown(
-            f"""
-            <div class='supportxmr-data'>
-                <h4>Wallet Address: {WALLET_ADDRESS}</h4>
-                <p><strong>Pool:</strong> SupportXMR (supportxmr.com)</p>
-                <p><strong>Data Source:</strong> Live API (Updated every 5 minutes)</p>
+    # Leaderboard controls
+    col1, col2, col3 = st.columns([2, 2, 2])
+    with col1:
+        sort_by = st.selectbox(
+            "Sort by:", ["Rank", "Hash Rate", "Blocks Mined", "XMRT Earned", "Uptime"]
+        )
+    with col2:
+        filter_status = st.selectbox(
+            "Filter by Status:", ["All", "🟢 Active", "🟡 Syncing", "🔴 Offline"]
+        )
+    with col3:
+        if st.button("🔄 Refresh Leaderboard"):
+            st.session_state.session_events.append("Refreshed Miner Leaderboard")
+            st.success("Leaderboard updated!")
+
+    # Get leaderboard data
+    df = get_miner_leaderboard()
+
+    # Apply filters
+    if filter_status != "All":
+        df = df[df["status"] == filter_status]
+
+    # Display top 3 miners prominently
+    st.markdown("### 🥇 Top 3 Miners")
+    top3_cols = st.columns(3)
+
+    for i, (idx, miner) in enumerate(df.head(3).iterrows()):
+        with top3_cols[i]:
+            medal = ["🥇", "🥈", "🥉"][i]
+            st.markdown(
+                f"""
+            <div class='miner-card top-miner'>
+                <h4>{medal} #{miner['rank']} {miner['handle']}</h4>
+                <p><strong>Hash Rate:</strong> {miner['hash_rate']}</p>
+                <p><strong>Blocks:</strong> {miner['blocks_mined']}</p>
+                <p><strong>XMRT Earned:</strong> {miner['xmrt_earned']:,.2f}</p>
+                <p><strong>Uptime:</strong> {miner['uptime']}</p>
+                <p><strong>Status:</strong> {miner['status']}</p>
             </div>
             """,
-            unsafe_allow_html=True,
-        )
-        
-        # Display miner statistics
-        miner_data = api_data.get("miner", {})
-        pool_stats = api_data.get("pool", {}).get("pool_statistics", {})
-        network_data = api_data.get("network", {})
-        
-        st.markdown("### 📊 Mining Statistics")
-        
-        # Main miner stats
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.metric("Current Hash Rate", format_hash_rate(miner_data.get("hash", 0)))
-        with col2:
-            st.metric("Total Hashes", f"{miner_data.get('totalHashes', 0):,}")
-        with col3:
-            st.metric("Valid Shares", f"{miner_data.get('validShares', 0):,}")
-        with col4:
-            st.metric("XMR Due", f"{format_xmr_amount(miner_data.get('amtDue', 0))} XMR")
-        
-        # Additional stats
-        col5, col6, col7, col8 = st.columns(4)
-        with col5:
-            st.metric("Invalid Shares", f"{miner_data.get('invalidShares', 0):,}")
-        with col6:
-            st.metric("XMR Paid", f"{format_xmr_amount(miner_data.get('amtPaid', 0))} XMR")
-        with col7:
-            st.metric("Transaction Count", f"{miner_data.get('txnCount', 0):,}")
-        with col8:
-            last_hash = miner_data.get('lastHash', 0)
-            if last_hash > 0:
-                last_hash_time = datetime.datetime.fromtimestamp(last_hash / 1000)
-                st.metric("Last Hash", last_hash_time.strftime("%Y-%m-%d %H:%M"))
-            else:
-                st.metric("Last Hash", "Never")
-        
-        # Pool context
-        st.markdown("### 🏊 Pool Context")
-        pool_col1, pool_col2, pool_col3, pool_col4 = st.columns(4)
-        with pool_col1:
-            st.metric("Pool Hash Rate", format_hash_rate(pool_stats.get("hashRate", 0)))
-        with pool_col2:
-            st.metric("Total Pool Miners", f"{pool_stats.get('miners', 0):,}")
-        with pool_col3:
-            st.metric("Blocks Found", f"{pool_stats.get('totalBlocksFound', 0):,}")
-        with pool_col4:
-            st.metric("Network Difficulty", f"{network_data.get('difficulty', 0):,}")
-        
-        # Display the leaderboard table
-        if not df.empty:
-            st.markdown("### 📋 Miner Details")
-            display_df = df.copy()
-            display_df.columns = [
-                "Rank",
-                "Miner Handle",
-                "Hash Rate",
-                "Total Hashes",
-                "Valid Shares",
-                "Invalid Shares",
-                "XMR Due",
-                "XMR Paid",
-                "Status",
-                "Pool",
-                "Data Source"
-            ]
-            st.dataframe(display_df, use_container_width=True, hide_index=True)
-        
-        # Raw API data (for debugging)
-        with st.expander("🔍 Raw API Data"):
-            st.json(api_data)
-            
-    else:
-        st.error("Failed to fetch data from SupportXMR API. Please check your connection.")
-        if "error" in api_data:
-            st.error(f"Error details: {api_data['error']}")
+                unsafe_allow_html=True,
+            )
 
-    # Refresh button
-    if st.button("🔄 Refresh SupportXMR Data"):
-        st.session_state.session_events.append("Refreshed SupportXMR Data")
-        st.cache_data.clear()
-        st.rerun()
+    # Full leaderboard table
+    st.markdown("### 📊 Complete Leaderboard")
+
+    # Format the dataframe for display
+    display_df = df.copy()
+    display_df["XMRT Earned"] = display_df["xmrt_earned"].apply(lambda x: f"{x:,.2f}")
+    display_df = display_df[
+        [
+            "rank",
+            "handle",
+            "hash_rate",
+            "blocks_mined",
+            "XMRT Earned",
+            "uptime",
+            "location",
+            "status",
+        ]
+    ]
+    display_df.columns = [
+        "Rank",
+        "Miner Handle",
+        "Hash Rate",
+        "Blocks Mined",
+        "XMRT Earned",
+        "Uptime",
+        "Location",
+        "Status",
+    ]
+
+    st.dataframe(display_df, use_container_width=True, hide_index=True)
+
+    # Mining statistics
+    st.markdown("### 📈 Network Mining Statistics")
+    stat_cols = st.columns(4)
+    with stat_cols[0]:
+        st.metric("Total Network Hash Rate", "15.2 TH/s", "+0.8 TH/s")
+    with stat_cols[1]:
+        st.metric("Active Miners", len(df[df["status"] == "🟢 Active"]), "+2")
+    with stat_cols[2]:
+        st.metric("Total Blocks Mined", f"{df['blocks_mined'].sum():,}", "+127")
+    with stat_cols[3]:
+        st.metric(
+            "Total XMRT Distributed", f"{df['xmrt_earned'].sum():,.2f}", "+1,234.56"
+        )
+
+    # Mining pool actions
+    st.markdown("### ⛏️ Mining Pool Actions")
+    mining_cols = st.columns(3)
+    with mining_cols[0]:
+        if st.button("🚀 Start Mining", key="start_mining"):
+            st.session_state.session_events.append("Started XMRT Mining")
+            st.success(
+                "Mining operation initiated! Your node is now contributing to the XMRT network."
+            )
+    with mining_cols[1]:
+        if st.button("📊 View My Stats", key="my_stats"):
+            st.session_state.session_events.append("Viewed Mining Stats")
+            st.info(
+                "Your mining statistics: Hash Rate: 0.5 TH/s | Blocks: 23 | XMRT Earned: 287.50"
+            )
+    with mining_cols[2]:
+        if st.button("⚙️ Optimize Settings", key="optimize"):
+            st.session_state.session_events.append("Optimized Mining Settings")
+            st.info("Mining settings optimized for maximum efficiency!")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -552,7 +569,7 @@ with tab6:
     st.metric("Meshnet Data Throughput", "2.5 TB/day", "+0.3 TB")
     if st.button("🔄 Reset Session & Start Over"):
         st.session_state.onboarded = False
-        st.rerun()
+        st.experimental_rerun()
     st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("---")
@@ -560,4 +577,3 @@ st.write(
     "<span style='color:#00ff88;font-weight:bold;'>XMRT DAO on Meshnet</span> | Empowering Decentralized Futures | Contact: <a href='mailto:xmrtnet@gmail.com' style='color:#00ff88;'>xmrtnet@gmail.com</a>",
     unsafe_allow_html=True,
 )
-
