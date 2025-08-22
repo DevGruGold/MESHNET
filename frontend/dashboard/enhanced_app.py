@@ -123,7 +123,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- API Configuration ---
-API_BASE_URL = "https://www.supportxmr.com/api"
+API_BASE_URL = "https://supportxmr.com/api"
 MINING_WALLET = "46UxNFuGM2E3UwmZWWJicaRPoRwqwW4byQkaTHkX8yPcVihp91qAVtSFipWUGJJUyTXgzSqxzDQtNLf2bsp2DX2qCCgC5mg"
 
 class SupportXMRService:
@@ -152,6 +152,17 @@ class SupportXMRService:
         except Exception as e:
             st.error(f"Error fetching miner stats: {e}")
             return {}
+    
+    def get_worker_stats(self) -> List[Dict[str, Any]]:
+        """Get all worker statistics for the XMRT wallet"""
+        try:
+            response = requests.get(f"{self.api_base}/miner/{self.wallet}/stats/allworkers", timeout=10)
+            response.raise_for_status()
+            workers = response.json()
+            return workers if workers else []
+        except Exception as e:
+            st.error(f"Error fetching worker stats: {e}")
+            return []
 
 # Initialize service
 @st.cache_resource
@@ -200,66 +211,51 @@ def get_real_mining_data():
     """Fetch real mining data from SupportXMR API"""
     pool_stats = service.get_pool_stats()
     miner_stats = service.get_miner_stats()
+    worker_stats = service.get_worker_stats()
     
     return {
         'pool_stats': pool_stats,
         'miner_stats': miner_stats,
+        'worker_stats': worker_stats,
         'timestamp': datetime.datetime.now().isoformat()
     }
 
 @st.cache_data(ttl=120)
 def get_enhanced_leaderboard():
-    """Get enhanced leaderboard with simulated worker data based on real pool stats"""
+    """Get enhanced leaderboard with real worker data"""
     data = get_real_mining_data()
-    pool_stats = data.get('pool_stats', {}).get('pool_statistics', {})
-    miner_stats = data.get('miner_stats', {})
+    workers = data['worker_stats']
     
-    # Since we can't get individual worker data from the API, simulate workers
-    # based on the actual mining activity
-    total_hashrate = miner_stats.get('hash', 0)
+    if not workers:
+        return pd.DataFrame()
     
-    if total_hashrate == 0:
-        # Create simulated workers based on pool activity
-        miners = []
-        worker_names = [
-            "MobileMiner1", "TabletPro", "PhoneX", "AndroidMiner", 
-            "iOSWorker", "TermuxBot", "MobileRig1", "PocketMiner",
-            "SmartPhone", "TabletMiner"
-        ]
+    miners = []
+    for i, worker in enumerate(workers):
+        identifier = worker.get('identifer', f'Worker_{i+1}')
+        hashrate = worker.get('hashrate', 0)
+        last_share = worker.get('lastShare', 0)
         
-        for i, name in enumerate(worker_names[:5]):  # Show top 5 simulated workers
-            # Simulate realistic mobile mining hashrates (very low)
-            simulated_hashrate = max(10, int(50 - i * 8))  # 50, 42, 34, 26, 18 H/s
-            miners.append({
-                "rank": i + 1,
-                "worker_id": generate_user_id_from_identifier(name),
-                "identifier": name,
-                "hash_rate": simulated_hashrate,
-                "hash_rate_formatted": format_hashrate(simulated_hashrate),
-                "last_share": int(time.time()) - (i * 60),  # Stagger last shares
-                "status": "🟢 Active" if i < 3 else "🟡 Idle",
-                "contribution_percent": 0,
-            })
-    else:
-        # If there's actual hashrate, show it as a single worker
-        miners = [{
-            "rank": 1,
-            "worker_id": "XMRTDAO1",
-            "identifier": "XMRT-DAO-Main",
-            "hash_rate": total_hashrate,
-            "hash_rate_formatted": format_hashrate(total_hashrate),
-            "last_share": miner_stats.get('lastHash', int(time.time())),
-            "status": get_worker_status(total_hashrate, miner_stats.get('lastHash', 0)),
-            "contribution_percent": 100.0,
-        }]
+        miners.append({
+            "rank": i + 1,
+            "worker_id": generate_user_id_from_identifier(identifier),
+            "identifier": identifier,
+            "hash_rate": hashrate,
+            "hash_rate_formatted": format_hashrate(hashrate),
+            "last_share": last_share,
+            "status": get_worker_status(hashrate, last_share),
+            "contribution_percent": 0,  # Will calculate below
+        })
     
     df = pd.DataFrame(miners)
     
-    # Calculate contribution percentages if not set
-    if len(df) > 1:
-        total_hashrate_df = df['hash_rate'].sum()
-        if total_hashrate_df > 0:
-            df['contribution_percent'] = (df['hash_rate'] / total_hashrate_df * 100).round(2)
+    # Calculate contribution percentages
+    total_hashrate = df['hash_rate'].sum()
+    if total_hashrate > 0:
+        df['contribution_percent'] = (df['hash_rate'] / total_hashrate * 100).round(2)
+    
+    # Sort by hashrate descending
+    df = df.sort_values('hash_rate', ascending=False).reset_index(drop=True)
+    df['rank'] = range(1, len(df) + 1)
     
     return df
 
@@ -378,8 +374,8 @@ with tab1:
         blocks_found = pool_stats.get('totalBlocksFound', 0)
         st.metric("Blocks Found", f"{blocks_found:,}")
     with col4:
-        xmr_due = miner_stats.get('amtDue', 0) / 1e12
-        st.metric("XMR Due", f"{xmr_due:.6f}")
+        xmr_paid = miner_stats.get('amtPaid', 0) / 1e12
+        st.metric("XMR Paid Out", f"{xmr_paid:.4f}")
 
 with tab2:
     st.markdown("## 🏆 Worker Leaderboard")
@@ -399,11 +395,10 @@ with tab2:
             with top3_cols[i]:
                 medal = ["🥇", "🥈", "🥉"][i]
                 is_user = worker['worker_id'] == user_id
-                
-                highlight_style = "background: linear-gradient(135deg, #ffaa00 0%, #ff8800 100%); color: #1a1a1a;" if is_user else ""
+                card_class = 'miner-card top-miner' + (' user-highlight' if is_user else '')
                 
                 st.markdown(f"""
-                <div class='miner-card top-miner' style='{highlight_style}'>
+                <div class='{card_class}'>
                     <h4>{medal} #{worker['rank']} {worker['worker_id']}</h4>
                     <p><strong>Hash Rate:</strong> {worker['hash_rate_formatted']}</p>
                     <p><strong>Contribution:</strong> {worker['contribution_percent']}%</p>
@@ -422,8 +417,14 @@ with tab2:
         display_df['Worker ID'] = display_df['worker_id']
         display_df['Status'] = display_df['status']
         
-        # Show the dataframe
-        st.dataframe(display_df[['rank', 'Worker ID', 'Hash Rate', 'Contribution %', 'Status']], use_container_width=True, hide_index=True)
+        # Highlight user's row
+        def highlight_user_row(row):
+            if row['Worker ID'] == user_id:
+                return ['background-color: #00ff8844'] * len(row)
+            return [''] * len(row)
+        
+        styled_df = display_df[['rank', 'Worker ID', 'Hash Rate', 'Contribution %', 'Status']].style.apply(highlight_user_row, axis=1)
+        st.dataframe(styled_df, use_container_width=True, hide_index=True)
         
         # Statistics
         st.markdown("### 📈 Network Statistics")
@@ -449,6 +450,7 @@ with tab3:
     
     mining_data = get_real_mining_data()
     pool_stats = mining_data.get('pool_stats', {}).get('pool_statistics', {})
+    network_stats = mining_data.get('pool_stats', {}).get('network_statistics', {})
     miner_stats = mining_data.get('miner_stats', {})
     
     # Pool Performance
@@ -464,15 +466,14 @@ with tab3:
         st.write(f"**Miners Paid:** {pool_stats.get('totalMinersPaid', 0):,}")
     
     with col2:
-        st.markdown("**XMRT Wallet Statistics**")
-        st.write(f"**Current Hash Rate:** {format_hashrate(miner_stats.get('hash', 0))}")
-        st.write(f"**Total Hashes:** {miner_stats.get('totalHashes', 0):,}")
-        st.write(f"**Valid Shares:** {miner_stats.get('validShares', 0):,}")
-        st.write(f"**Amount Due:** {miner_stats.get('amtDue', 0) / 1e12:.6f} XMR")
-        st.write(f"**Amount Paid:** {miner_stats.get('amtPaid', 0) / 1e12:.6f} XMR")
+        st.markdown("**Network Statistics**")
+        st.write(f"**Difficulty:** {network_stats.get('difficulty', 0):,}")
+        st.write(f"**Block Height:** {network_stats.get('height', 0):,}")
+        st.write(f"**Network Hash Rate:** {format_hashrate(network_stats.get('hashrate', 0))}")
+        st.write(f"**Block Reward:** {network_stats.get('reward', 0) / 1e12:.4f} XMR")
     
     # XMRT Wallet Statistics
-    st.markdown("### 💰 XMRT Mining Performance")
+    st.markdown("### 💰 XMRT Wallet Statistics")
     col1, col2, col3 = st.columns(3)
     
     with col1:
@@ -484,14 +485,8 @@ with tab3:
         st.metric("Amount Due", f"{amount_due:.6f} XMR")
     
     with col3:
-        valid_shares = miner_stats.get('validShares', 0)
-        st.metric("Valid Shares", f"{valid_shares:,}")
-    
-    # Show connection status
-    if current_hashrate > 0:
-        st.success("✅ XMRT wallet is actively mining!")
-    else:
-        st.info("ℹ️ XMRT wallet is not currently mining, but has historical activity.")
+        amount_paid = miner_stats.get('amtPaid', 0) / 1e12
+        st.metric("Total Paid", f"{amount_paid:.6f} XMR")
     
     # Raw data (for debugging)
     with st.expander("🔧 Raw API Data"):
