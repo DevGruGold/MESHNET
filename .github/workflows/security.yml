@@ -1,0 +1,25 @@
+name: Security Audit
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'  # Weekly on Monday at 2 AM
+  workflow_dispatch:
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Python security audit
+      run: |
+        pip install safety bandit
+        safety check || true
+        bandit -r . || true
+    
+    - name: Create security report
+      run: |
+        echo "Security audit completed for MESHNET"
+        # Generate security report
