@@ -1,0 +1,30 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - "alert_rules.yml"
+
+scrape_configs:
+  - job_name: 'meshnet'
+    static_configs:
+      - targets: ['meshnet:8000']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# XMRT Ecosystem Integration
+remote_write:
+  - url: "https://monitoring.xmrt.dev/api/v1/write"
+    basic_auth:
+      username: "xmrt-ecosystem"
+      password_file: "/etc/prometheus/password"

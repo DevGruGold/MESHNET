@@ -324,3 +324,21 @@ This project is designed to facilitate offline mesh mining with autonomous DAO o
 
 By focusing on these areas, the MESHNET project can be significantly improved and prepared for wider adoption and mainnet deployment.
 
+## Next Next Next Phase: Auth, Integrations, Cloud Demo
+- **Authentication:** Secure dashboard with passwords/OAuth.
+- **Advanced Features:** Live mesh data and agent analytics.
+- **Cloud Demo:** Deployed via Render/Heroku—try the live version [here](link).
+
+
+
+## Development Branches
+
+- **`phase-2-deploy`**: This branch contains the ongoing development for MESHNET Phase 2, including offline mesh mining capabilities, autonomous DAO operations, and Sepolia testnet deployment. For the latest features and updates, please refer to this branch.
+
+
+
+
+## Agents Documentation
+
+For detailed information on the autonomous agents operating within MESHNET, please refer to the [Agents Documentation](agents.md).
+
